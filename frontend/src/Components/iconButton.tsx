@@ -26,13 +26,10 @@ export const IconButton = ({
 	};
 
 	return (
-		<>
-			{" "}
-			<form onSubmit={submitHandler} className="items-center flex">
-				<button type="submit" className={getClass()}>
-					{children}
-				</button>
-			</form>
-		</>
+		<form onSubmit={submitHandler} className="items-center flex">
+			<button type="submit" className={getClass()}>
+				{children}
+			</button>
+		</form>
 	);
 };
