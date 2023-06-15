@@ -1,5 +1,5 @@
 import AboutButton from "../Components/about";
-import { EnterTopic } from "../Components/enterTopic";
+import { EnterTopic } from "../Components/setQuizTopic";
 
 export const StartScreen = () => {
 	return (
@@ -8,7 +8,7 @@ export const StartScreen = () => {
 				<h1 className="text-4xl font-bold">quizify</h1>
 				<h2 className="font-semibold">a project by PS interns 2023</h2>
 			</div>
-			<div className="flex flex-col items-center">
+			<div className="flex flex-col items-center gap-6">
 				<EnterTopic />
 				<AboutButton />
 			</div>
