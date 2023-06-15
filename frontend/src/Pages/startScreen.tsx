@@ -1,7 +1,7 @@
 import AboutButton from "../Components/about";
-import { EnterTopic } from "../Components/setQuizTopic";
+import EnterTopic from "../Components/setQuizTopic";
 
-export const StartScreen = () => {
+const StartScreen = () => {
 	return (
 		<div className="flex flex-col text-center h-full justify-evenly font-default">
 			<div className="flex flex-col">
@@ -15,3 +15,5 @@ export const StartScreen = () => {
 		</div>
 	);
 };
+
+export default StartScreen;

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { BsFillArrowRightCircleFill } from "react-icons/bs";
 import { IconButton } from "./iconButton";
 
-export const EnterTopic = () => {
+const EnterTopic = () => {
 	const [topicData, setTopicData] = useState("");
 
 	const handleTextEntry = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,3 +32,4 @@ export const EnterTopic = () => {
 		</div>
 	);
 };
+export default EnterTopic;
