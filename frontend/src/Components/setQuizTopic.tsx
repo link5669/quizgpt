@@ -10,16 +10,22 @@ export const EnterTopic = () => {
 	};
 
 	return (
-		<div className="bg-gray-200 rounded-full border-black focus:border-4 border-solid">
+		<div className="bg-gray-200 rounded-full focus-within:border-black border-2 border-solid shadow-md">
 			<div className="flex flex-row">
 				<input
-					className="bg-transparent outline-none m-4 text-xl"
+					className="bg-transparent outline-none mx-4 text-xl"
 					type="text"
 					value={topicData}
 					onChange={handleTextEntry}
 					placeholder="enter a topic"
 				></input>
-				<IconButton className="text-[50px] mx-2" hoverScale={false}>
+				<IconButton
+					className="text-[48px]"
+					hoverScale={false}
+					action={(e) => {
+						console.log(e);
+					}}
+				>
 					<BsFillArrowRightCircleFill />
 				</IconButton>
 			</div>
