@@ -1,25 +1,31 @@
-const axios = require('axios');
-require('dotenv').config();
+import axios from 'axios'
+import 'dotenv/config'
 
-var chatResponseMessage
+const getGPTData = async (topic, numQuestions) => {
+  const headers = {
+    'Authorization': `Bearer ${process.env.PSCHATACCESSTOKEN}`,
+    'Content-Type': 'application/json'
+  };
 
-console.log(process.env.PSCHATACCESSTOKEN)
-const headers = {
-  'Authorization': `Bearer ${process.env.PSCHATACCESSTOKEN}`,
-  'Content-Type': 'application/json'
-};
+  const data = {
+    message: `Give me ${numQuestions} multiple choice questions \
+              about ${topic}. Make sure there are four possible answers, \
+              make one of them the correct answer and three of them incorrect. \
+              Don\'t make it too easy, but make sure that the user will be able \
+              to discern the right answer with a reasonable amount of knowledge on \
+              the subject`,
+    options: {
+      model: 'gpt4'
+    }
+  };
 
-const data = {
-  message: 'Give a example of POST call using curl',
-  options: {
-    model: 'gpt4'
-  }
-};
-
-axios.post('https://api.psnext.info/api/chat', data, { headers })
-  .then(response => {
-    chatResponseMessage = reseponse.data.data.message[2].content
-  })
-  .catch(error => {
-    console.error(error);
+  return axios.post('https://api.psnext.info/api/chat', data, { headers })
+    .then(response => {
+      return response.data.data.messages[2].content
+    })
+    .catch(error => {
+      console.error(error);
   });
+}
+
+export default getGPTData
