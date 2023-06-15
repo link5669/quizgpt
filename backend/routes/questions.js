@@ -19,7 +19,7 @@ router.get('/', (req, res) => {
     console.log("fetching /")
     console.log(questions != null)
     if (questions != null) {
-        res.json({success: true, data: questions});
+        res.json({success: true, data: JSON.parse(questions)});
     } else {
         res.json({success: true, data: "loading!"});
     } 
