@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { BsFillArrowRightCircleFill } from "react-icons/bs";
+import { IconButton } from "./iconButton";
 
 export const EnterTopic = () => {
 	const [topicData, setTopicData] = useState("");
@@ -12,14 +13,15 @@ export const EnterTopic = () => {
 		<div className="bg-gray-200 rounded-full border-black focus:border-4 border-solid">
 			<div className="flex flex-row">
 				<input
-					className="bg-transparent outline-none m-4"
+					className="bg-transparent outline-none m-4 text-xl"
 					type="text"
 					value={topicData}
 					onChange={handleTextEntry}
+					placeholder="enter a topic"
 				></input>
-				<button className="text-[50px] mx-2 text-gray-800">
+				<IconButton className="text-[50px] mx-2" hoverScale={false}>
 					<BsFillArrowRightCircleFill />
-				</button>
+				</IconButton>
 			</div>
 		</div>
 	);
