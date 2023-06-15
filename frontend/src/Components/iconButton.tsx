@@ -1,8 +1,8 @@
-import { PropsWithChildren } from "react";
+import { FormEvent, PropsWithChildren } from "react";
 
 interface Props {
 	hoverScale?: boolean;
-	action?: (doSomething: any) => void;
+	action?: (e: FormEvent<HTMLFormElement>) => void;
 	className?: string;
 }
 
@@ -19,9 +19,20 @@ export const IconButton = ({
 		}
 		return className ? cls.concat(" ", className) : cls;
 	};
+
+	const submitHandler = (e: FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		action ? action(e) : null;
+	};
+
 	return (
-		<button onSubmit={action} className={getClass()}>
-			{children}
-		</button>
+		<>
+			{" "}
+			<form onSubmit={submitHandler} className="items-center flex">
+				<button type="submit" className={getClass()}>
+					{children}
+				</button>
+			</form>
+		</>
 	);
 };
