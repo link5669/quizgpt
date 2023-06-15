@@ -1,8 +1,7 @@
-const express = require('express');
+import express from 'express'
 const router = express.Router();
-module.exports = router;
 
-questions = [
+const questions = [
     {
         'id': 1,
         'question': 'What color is the sky?',
@@ -14,3 +13,4 @@ questions = [
 router.get('/', (req, res) => {
     res.json({success: true, data: questions});
 });
+export default router
