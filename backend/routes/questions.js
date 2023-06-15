@@ -1,15 +1,18 @@
 import express from 'express'
+import fetchQuestions from "../GPT/getFormattedQuestions.js";
 const router = express.Router();
+const topic = "Boston";
+const numQuestions = 5;
+let questions;
+fetchQuestions(topic, numQuestions)
+.then((response) => {
+  questions = response;
+  console.log(response);
+})
+.catch((error) => {
+  console.error(error);
+});
 
-const questions = [
-    {
-        'id': 1,
-        'question': 'What color is the sky?',
-        'options': ['red', 'green', 'blue', 'purple'],
-        'correct_answer': 'blue',
-    }
-]
-  
 router.get('/', (req, res) => {
     res.json({success: true, data: questions});
 });
