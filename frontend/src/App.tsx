@@ -3,7 +3,7 @@ function App() {
 		<>
 			<div className="w-screen h-screen bg-gray-800">
 				<div className="w-full h-20 bg-yellow-100">
-					<h1 className="">QuizGPT</h1>
+					<h1 className="text-lg">QuizGPT</h1>
 				</div>
 			</div>
 		</>
