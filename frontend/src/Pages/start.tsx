@@ -1,7 +1,7 @@
-import AboutButton from "../Components/about";
+import { Link } from "react-router-dom";
 import EnterTopic from "../Components/setQuizTopic";
 
-const StartScreen = () => {
+export default function StartPage() {
 	return (
 		<div className="flex flex-col text-center h-full justify-evenly font-default">
 			<div className="flex flex-col">
@@ -10,10 +10,14 @@ const StartScreen = () => {
 			</div>
 			<div className="flex flex-col items-center gap-6">
 				<EnterTopic />
-				<AboutButton />
+				<Link to={"/about"}>
+					<button>
+						<div className="rounded-full bg-gray-200 hover-scale py-1">
+							<p className="mx-6">about me</p>
+						</div>
+					</button>
+				</Link>
 			</div>
 		</div>
 	);
-};
-
-export default StartScreen;
+}

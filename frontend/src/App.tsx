@@ -1,11 +1,21 @@
-import QuizScreen from "./Pages/quizScreen";
-import StartScreen from "./Pages/startScreen";
+import { Routes, Route } from "react-router-dom";
+import QuizPage from "./Pages/quiz";
+import StartPage from "./Pages/start";
+import AboutPage from "./Pages/about";
 
 function App() {
 	return (
 		<div className="w-screen h-screen bg-gray-100">
-			{/* <StartScreen /> */}
-			<QuizScreen questionNumber={0} questionData={placeholderData} />
+			<Routes>
+				<Route path="/" element={<StartPage />} />
+				<Route
+					path="/quiz"
+					element={
+						<QuizPage questionNumber={0} questionData={placeholderData} />
+					}
+				/>
+				<Route path="/about" element={<AboutPage />} />
+			</Routes>
 		</div>
 	);
 }

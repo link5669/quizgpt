@@ -1,11 +1,11 @@
-import { QuestionData } from "./../../types/shared.d";
+import { QuestionData } from "../../types/shared";
 
 interface Props {
 	questionNumber: number;
 	questionData: QuestionData[];
 }
 
-export default function QuizScreen({ questionNumber, questionData }: Props) {
+export default function QuizPage({ questionNumber, questionData }: Props) {
 	const currentQuestionData = questionData[questionNumber];
 	return (
 		<div className="flex flex-col gap-3 h-full font-default text-center py-12">
@@ -16,9 +16,12 @@ export default function QuizScreen({ questionNumber, questionData }: Props) {
 					currentQuestionData.question}
 			</p>
 			<div className="flex flex-col justify-evenly items-center h-full">
-				{currentQuestionData.answers.map((ans) => {
+				{currentQuestionData.answers.map((ans, i) => {
 					return (
-						<button className="bg-gray-200 rounded-full w-[75%] py-4 hover-scale">
+						<button
+							className="bg-gray-200 rounded-full w-[75%] py-4 hover-scale shadow-md"
+							key={i}
+						>
 							<p className="text-2xl">{ans}</p>
 						</button>
 					);
