@@ -20,7 +20,7 @@ const EnterTopic = () => {
 
 	const handleSubmit = () => {
 		if (topicData.length > 0) {
-			navigate("/quiz", { state: topicData });
+			navigate("/loading", { state: topicData });
 		} else {
 			setError("Please enter a topic!");
 		}
@@ -28,13 +28,17 @@ const EnterTopic = () => {
 
 	return (
 		<div>
-			{error.length > 0 && <p className="text-red-600">{error}</p>}
-			<div className="bg-gray-200 rounded-full focus-within:border-black border-0 border-solid shadow-md flex flex-row">
+			<p className={"text-red-600"}>{error}</p>
+			<div className="bg-gray-200 rounded-full custom-outline shadow-md flex flex-row">
 				<input
 					className="bg-transparent outline-none mx-4 text-xl"
 					type="text"
 					value={topicData}
 					onChange={handleTextEntry}
+					onKeyDown={(e) => {
+						if (e.key !== "Enter") return;
+						handleSubmit();
+					}}
 					placeholder="enter a topic"
 				></input>
 

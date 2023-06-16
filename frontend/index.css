@@ -2,8 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+	body {
+		@apply font-default tracking-wide;
+	}
+}
+
 @layer utilities {
 	.hover-scale {
 		@apply hover:scale-110 ease-in-out duration-150;
+	}
+
+	.absolute-center {
+		@apply absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%];
+	}
+
+	.custom-outline {
+		@apply focus-within:outline outline-gray-700 outline-2 -outline-offset-[1px];
 	}
 }
