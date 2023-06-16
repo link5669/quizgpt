@@ -1,25 +1,8 @@
 steps:
-  # Install Node.js
-  - name: 'node:12.16.1'
-    entrypoint: 'bash'
-    args:
-      - '-c'
-      - |
-        apt-get update && apt-get install -y curl
-        curl -sL https://deb.nodesource.com/setup_12.x | bash -
-        apt-get install -y nodejs
-
-  # Install dependencies
-  - name: 'gcr.io/cloud-builders/npm'
-    args: ['install']
-
-  # Build the application
-  - name: 'gcr.io/cloud-builders/npm'
-    args: ['run', 'build']
-
-  # Deploy the application
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args:
-      - 'app'
-      - 'deploy'
-      - './app.yaml'
+- name: 'gcr.io/cloud-builders/npm'
+  args: ['install']
+- name: 'gcr.io/cloud-builders/npm'
+  args: ['run', 'build']
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['app', 'deploy']
+timeout: '1600s'
