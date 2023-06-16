@@ -13,7 +13,8 @@ const getGPTData = async (topic, numQuestions) => {
               make one of them the correct answer and three of them incorrect. \
               Don\'t make it too easy, but make sure that the user will be able \
               to discern the right answer with a reasonable amount of knowledge on \
-              the subject. Please provide the answer following each question.`,
+              the subject. Please provide the answer following each question. \
+              Do not provide any extraneous information.`,
     options: {
       model: 'gpt35turbo'
     }
