@@ -1,10 +1,10 @@
-import axios from 'axios'
-import 'dotenv/config'
+import axios from "axios";
+import "dotenv/config";
 
 const getGPTData = async (topic, numQuestions) => {
   const headers = {
-    'Authorization': `Bearer ${process.env.PSCHATACCESSTOKEN}`,
-    'Content-Type': 'application/json'
+    Authorization: `Bearer ${process.env.PSCHATACCESSTOKEN}`,
+    "Content-Type": "application/json",
   };
 
   const data = {
@@ -16,17 +16,18 @@ const getGPTData = async (topic, numQuestions) => {
               the subject. Please provide the answer following each question. \
               Do not provide any extraneous information.`,
     options: {
-      model: 'gpt35turbo'
-    }
+      model: "gpt35turbo",
+    },
   };
 
-  return axios.post('https://api.psnext.info/api/chat', data, { headers })
-    .then(response => {
-      return response.data.data.messages[2].content
+  return axios
+    .post("https://api.psnext.info/api/chat", data, { headers })
+    .then((response) => {
+      return response.data.data.messages[2].content;
     })
-    .catch(error => {
+    .catch((error) => {
       console.error(error);
-  });
-}
+    });
+};
 
-export default getGPTData
+export default getGPTData;

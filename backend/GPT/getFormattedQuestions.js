@@ -1,9 +1,9 @@
-import getGPTData from "./chat.js"
+import getGPTData from "./chat.js";
 
 const fetchQuestions = async (topic, numQuestions) => {
   const response = await getGPTData(topic, numQuestions);
-  return parseData(response)
-}
+  return parseData(response);
+};
 
 function parseData(text) {
   const parsedQuestions = [];
@@ -25,4 +25,4 @@ function parseData(text) {
   return JSON.stringify(parsedQuestions);
 }
 
-export default fetchQuestions
+export default fetchQuestions;
