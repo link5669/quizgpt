@@ -5,9 +5,9 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   try {
-    const { topic, numQuestions } = req.query;
+    const { topic, numQuestions, difficulty } = req.query;
     console.log(topic);
-    const questions = await fetchQuestions(topic, numQuestions);
+    const questions = await fetchQuestions(topic, numQuestions, difficulty);
     res.json({ success: true, data: JSON.parse(questions) });
   } catch {
     res.status(500).send("Error occurred while fetching data from the API");
