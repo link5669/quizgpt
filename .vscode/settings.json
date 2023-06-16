@@ -1,5 +1,0 @@
-{
-    "appService.showBuildDuringDeployPrompt": false,
-    "appService.defaultWebAppToDeploy": "/subscriptions/a636be1f-4bec-4f5b-b7dc-783ce7c88de9/resourceGroups/QuizGPT-PS_group/providers/Microsoft.Web/sites/QuizGPT-PS",
-    "appService.deploySubpath": "backend"
-}
