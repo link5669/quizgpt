@@ -1,4 +1,6 @@
+import { useLocation } from "react-router-dom";
 import { QuestionData } from "../../types/shared";
+import ReturnToStart from "../Components/returnToStart";
 
 interface Props {
 	questionNumber: number;
@@ -7,8 +9,11 @@ interface Props {
 
 export default function QuizPage({ questionNumber, questionData }: Props) {
 	const currentQuestionData = questionData[questionNumber];
+	const location = useLocation();
+	console.log(location.state);
 	return (
 		<div className="flex flex-col gap-3 h-full font-default text-center py-12">
+			<ReturnToStart />
 			<p className="text-4xl mx-8">
 				{"Question #" +
 					(questionNumber + 1) +
