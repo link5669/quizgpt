@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import EnterTopic from "../Components/setQuizTopic";
+import { useSelector } from "react-redux";
 
 export default function StartPage() {
 	return (
