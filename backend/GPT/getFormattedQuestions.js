@@ -1,11 +1,12 @@
 import getGPTData from "./chat.js";
 
-const fetchQuestions = async (topic, numQuestions) => {
-  const response = await getGPTData(topic, numQuestions);
+const fetchQuestions = async (topic, numQuestions, difficulty) => {
+  const response = await getGPTData(topic, numQuestions, difficulty);
   return parseData(response);
 };
 
 function parseData(text) {
+  console.log(text)
   const parsedQuestions = [];
   const questions = text.split("\n\n");
   for (let i = 0; i < questions.length; i++) {

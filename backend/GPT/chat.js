@@ -6,9 +6,9 @@ const getGPTData = async (topic, numQuestions, difficulty) => {
     Authorization: `Bearer ${process.env.PSCHATACCESSTOKEN}`,
     "Content-Type": "application/json",
   };
-
+  
   const data = {
-    message: ```
+    message: `
               Give me ${numQuestions} multiple choice questions 
               about ${topic} of ${difficulty} difficulty. Make 
               sure there are four possible answers, make one 
@@ -18,12 +18,11 @@ const getGPTData = async (topic, numQuestions, difficulty) => {
               reasonable amount of knowledge on the subject. 
               Please provide the answer following each question. 
               Do not provide any extraneous information.
-              ```,
+              `,
     options: {
       model: "gpt35turbo",
     },
   };
-
   return axios
     .post("https://api.psnext.info/api/chat", data, { headers })
     .then((response) => {

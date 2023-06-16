@@ -4,7 +4,7 @@ import fetchQuestions from "../GPT/getFormattedQuestions.js";
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-  if (req.query.length != 3) {
+  if (!(req.query.topic && req.query.numQuestions && req.query.difficulty)) {
     res.status(400).send("Missing parameters")
   } else {
     try {
