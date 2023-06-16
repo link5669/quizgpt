@@ -4,6 +4,6 @@
 
 @layer utilities {
 	.hover-scale {
-		@apply hover:scale-110 ease-in-out transform-gpu duration-150;
+		@apply hover:scale-110 ease-in-out duration-150;
 	}
 }
