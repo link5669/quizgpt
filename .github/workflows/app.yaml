@@ -1,2 +1,0 @@
-runtime: nodejs18
-entrypoint: node ./backend/index.js
