@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+	.hover-scale {
+		@apply hover:scale-110 ease-in-out transform-gpu duration-150;
+	}
+}
