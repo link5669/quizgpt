@@ -1,10 +1,22 @@
 import { BsFillLightbulbFill } from "react-icons/bs";
 import { useLocation } from "react-router-dom";
 import ReturnToStart from "../Components/returnToStart";
+import { useEffect } from "react";
+import axios from "axios";
 
 export default function Loading() {
 	const location = useLocation();
 	console.log(location.state);
+
+	useEffect(() => {
+		const fetchQuestions = async () => {
+			const questionData = await axios.get(
+				"http://localhost:5000/api/questions"
+			);
+			console.log(questionData);
+		};
+		fetchQuestions().catch(console.error);
+	}, []);
 
 	return (
 		<>
