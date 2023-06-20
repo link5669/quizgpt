@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import ReturnToStart from "../Components/returnToStart";
-import { RootState, incrementScore, setQuestionIndex } from "../redux/index.ts";
+import { RootState, incrementScore, incrementIndex } from "../redux/index.ts";
 import { useSelector, useDispatch } from "react-redux";
 
 export default function QuizPage() {
+	const answerTimeout = 2500;
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const questionIndex = useSelector(
@@ -12,24 +13,36 @@ export default function QuizPage() {
 	const questionData = useSelector((state: RootState) => state.question.data);
 	const score = useSelector((state: RootState) => state.user.score);
 
-	const handleButton = (buttonIndex: number) => {
+	const handleButton = (
+		buttonIndex: number,
+		event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+	) => {
+		const target = event.currentTarget as Element;
 		if (buttonIndex === questionData[questionIndex].correctAnswer) {
-			correctResponse();
+			correctResponse(target);
 		} else {
-			incorrectResponse();
+			incorrectResponse(target);
 		}
-		if (questionIndex === questionData.length) {
-			navigate("/score");
-		} else dispatch(setQuestionIndex(questionIndex + 1));
+		setTimeout(() => {
+			if (questionIndex === questionData.length - 1) {
+				navigate("/score");
+			} else dispatch(incrementIndex(questionIndex + 1));
+		}, answerTimeout);
 	};
 
-	const correctResponse = () => {
-		console.log("correct!");
+	const correctResponse = (element: Element) => {
+		element.classList.add("bg-green-500");
 		dispatch(incrementScore());
+		setTimeout(() => {
+			element.classList.remove("bg-green-500");
+		}, answerTimeout);
 	};
 
-	const incorrectResponse = () => {
-		console.log("WRONG!!!");
+	const incorrectResponse = (element: Element) => {
+		element.classList.add("bg-red-500");
+		setTimeout(() => {
+			element.classList.remove("bg-red-500");
+		}, answerTimeout);
 	};
 
 	return (
@@ -52,7 +65,7 @@ export default function QuizPage() {
 							key={i}
 							onClick={(e) => {
 								e.preventDefault();
-								handleButton(i);
+								handleButton(i, e);
 							}}
 						>
 							<p className="text-2xl">{ans}</p>
