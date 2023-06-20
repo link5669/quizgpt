@@ -21,6 +21,12 @@ function parseData(text) {
       },
       correctAnswer: question[5].substring(question[5].indexOf(" ") + 1),
     };
+    for (let i = 0; i < ["a)", "b)", "c)", "d)"].length; i++) {
+      if (parsedQuestion.correctAnswer.includes(["a)", "b)", "c)", "d)"][i])) {
+        parsedQuestion.correctAnswer = i;
+        break;
+      }
+    }
     parsedQuestions.push(parsedQuestion);
   }
   return JSON.stringify(parsedQuestions);
