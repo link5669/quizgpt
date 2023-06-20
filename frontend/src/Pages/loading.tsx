@@ -18,17 +18,20 @@ export default function Loading() {
 				.get<QuestionData[]>("/api/questions", {
 					params: {
 						topic: topic,
-						numQuestions: 10,
+						numQuestions: 3,
 						difficulty: "medium",
 					},
 				})
 				.then((response) => {
-					console.log(response.data);
 					dispatch(setQuestionData(response.data));
 					navigate("/quiz");
+				})
+				.catch((err) => {
+					console.error(err);
+					navigate("/");
 				});
 		};
-		fetchQuestions().catch(console.error);
+		fetchQuestions();
 	}, [dispatch, navigate, topic]);
 
 	return (
