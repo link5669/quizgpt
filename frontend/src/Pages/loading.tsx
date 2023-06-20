@@ -7,11 +7,6 @@ import { RootState, setQuestionData } from "../redux";
 import { QuestionData } from "./../../types/shared.d";
 import { useNavigate } from "react-router-dom";
 
-interface ResponseType {
-	data: QuestionData[];
-	success: boolean;
-}
-
 export default function Loading() {
 	const topic = useSelector((state: RootState) => state.question.topic);
 	const dispatch = useDispatch();
@@ -20,7 +15,7 @@ export default function Loading() {
 	useEffect(() => {
 		const fetchQuestions = async () => {
 			await axios
-				.get<ResponseType>("/api/questions", {
+				.get<QuestionData[]>("/api/questions", {
 					params: {
 						topic: topic,
 						numQuestions: 10,
@@ -28,8 +23,8 @@ export default function Loading() {
 					},
 				})
 				.then((response) => {
-					console.log(response.data.data);
-					dispatch(setQuestionData(response.data.data));
+					console.log(response.data);
+					dispatch(setQuestionData(response.data));
 					navigate("/quiz");
 				});
 		};

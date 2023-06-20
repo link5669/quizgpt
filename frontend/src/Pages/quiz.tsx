@@ -8,8 +8,6 @@ export default function QuizPage() {
 	);
 	const questionData = useSelector((state: RootState) => state.question.data);
 
-	console.log(questionData[currentQuestion]);
-
 	return (
 		<div className="flex flex-col gap-3 h-full font-default text-center py-12">
 			<ReturnToStart />
@@ -19,7 +17,7 @@ export default function QuizPage() {
 					": " +
 					questionData[currentQuestion].question}
 			</p>
-			<div className="flex flex-col justify-evenly items-center h-full">
+			<div className="flex flex-col justify-evenly items-center h-full gap-2">
 				{questionData[currentQuestion].answers.map((ans, i) => {
 					return (
 						<button
