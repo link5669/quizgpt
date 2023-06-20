@@ -10,27 +10,23 @@ interface QuestionState {
 const initialState: QuestionState = {
 	topic: "",
 	currentQuestionIndex: 0,
-	data: [
-		{
-			question: "",
-			answers: [""],
-			correctAnswer: 0,
-		},
-	],
+	data: [],
 };
 
 const questionSlice = createSlice({
 	name: "question",
 	initialState,
 	reducers: {
-		setQuestionIndex(state, action: PayloadAction<number>) {
-			state.currentQuestionIndex = action.payload;
+		incrementIndex(state) {
+			state.currentQuestionIndex = state.currentQuestionIndex + 1;
 		},
 		setQuestionData(state, action: PayloadAction<QuestionData[]>) {
 			state.data = action.payload;
 		},
-		setQuestionTopic(state, action: PayloadAction<string>) {
+		newTopic(state, action: PayloadAction<string>) {
 			state.topic = action.payload;
+			state.currentQuestionIndex = 0;
+			state.data = [];
 		},
 	},
 });

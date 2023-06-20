@@ -20,13 +20,20 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({
 	reducer: persistedReducer,
+	middleware: (getDefaultMiddleware) =>
+		getDefaultMiddleware({
+			serializableCheck: {
+				// Ignore the non-serializable values in the `persist/PERSIST` action
+				ignoredActions: ["persist/PERSIST"],
+			},
+		}),
 });
 
 const persistor = persistStore(store);
 
-export const { setQuestionIndex, setQuestionData, setQuestionTopic } =
+export const { incrementIndex, setQuestionData, newTopic } =
 	questionSlice.actions;
-export const { incrementScore } = userSlice.actions;
+export const { incrementScore, resetScore } = userSlice.actions;
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 export { store, persistor };
