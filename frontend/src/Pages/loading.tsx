@@ -11,7 +11,7 @@ export default function Loading() {
 	useEffect(() => {
 		const fetchQuestions = async () => {
 			const questionData = await axios.get(
-				"http://localhost:5000/api/questions"
+				`http://localhost:5000/api/questions?topic=${location.state}&numQuestions=5&difficulty=medium`
 			);
 			console.log(questionData);
 		};
