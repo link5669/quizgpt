@@ -10,7 +10,10 @@ const getGPTData = async (topic, numQuestions, difficulty) => {
   const data = {
     message: `
               Give me ${numQuestions} multiple choice questions 
-              about ${topic} of ${difficulty} difficulty. Make 
+              about ${topic} of ${difficulty} difficulty. Do not create
+              questions that involve statistics, dates, or numbers of any kind.
+              Only provide questions with answers that have been 
+              verified with absolute certainty. Make 
               sure there are four possible answers, make one 
               of them the correct answer and three of them incorrect. 
               Don't make it too easy, but make sure that the user 
@@ -18,8 +21,6 @@ const getGPTData = async (topic, numQuestions, difficulty) => {
               reasonable amount of knowledge on the subject. 
               Please provide the answer following each question. 
               Do not provide any extraneous information.
-              Only provide questions with answers that have been 
-              verified with absolute certainty.
               Format your response as follows:
               1. How many toes does a polydactyl cat typically have?
               a) 16
