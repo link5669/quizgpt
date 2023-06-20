@@ -2,11 +2,12 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux";
 
-const topic = useSelector((state: RootState) => state.questionSlice.topic);
-const totalQuestions = useSelector((state: RootState) => state.questionSlice.data.length());
-const score = useSelector((state: RootState) => state.userSlice.score);
-
 export default function ScorePage() {
+
+    const topic = useSelector((state: RootState) => state.questionSlice.topic);
+    const totalQuestions = useSelector((state: RootState) => state.questionSlice.data.length());
+    const score = useSelector((state: RootState) => state.userSlice.score);
+
     return (
         <div className="flex flex-col gap-3 h-full font-default items-center text-center py-5">
             <div>
@@ -29,7 +30,7 @@ export default function ScorePage() {
                 <button className="bg-gray-200 rounded-full hover-scale shadow-md py-5 px-10">
                     <p className="text-l">{"Play Again"}</p>
                 </button>
-                <Link to = "/">
+                <Link to="/">
                     <button className="bg-gray-200 rounded-full hover-scale shadow-md py-5 px-10">
                         <p className="text-l">{"New Topic"}</p>
                     </button>
