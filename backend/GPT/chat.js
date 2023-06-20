@@ -21,20 +21,14 @@ const getGPTData = async (topic, numQuestions, difficulty) => {
               reasonable amount of knowledge on the subject. 
               Please provide the answer following each question. 
               Do not provide any extraneous information.
-              Format your response as follows:
-              1. What is the purpose of the hosts file on a localhost server?
+              Format your response as follows and put a line
+              return after the answer:
+              1. What is the purpose of the hosts file on a PC?
               a) To configure network settings
               b) To block access to specific websites
               c) To map domain names to IP addresses
               d) To store user account information
               Answer: c) To map domain names to IP addresses
-
-              2. Which of the following is not a commonly used web server software for localhost development?     
-              a) Apache
-              b) Nginx
-              c) IIS
-              d) MySQL
-              Answer: d) MySQL
               `,
     options: {
       model: "gpt35turbo",

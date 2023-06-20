@@ -1,5 +1,5 @@
 import express from "express";
-import { writeScoreData } from "../scores/firebase.js";
+import { getAllScores, writeScoreData } from "../scores/firebase.js";
 
 const router = express.Router();
 
@@ -15,11 +15,10 @@ router.post("/", async (req, res) => {
 
 router.get("/", async (req, res) => {
     try {
-      const { username, topic, score } = req.query;
-      writeScoreData(username, topic, score);
-      res.status(200).send("Posted score")
+      getAllScores();
+      res.status(200).send("Fetched scores")
     } catch {
-      res.status(500).send("Error occurred while posting data to the API");
+      res.status(500).send("Error occurred while fetching data from the API");
     }
 }); 
 
