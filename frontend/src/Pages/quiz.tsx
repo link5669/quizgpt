@@ -26,7 +26,7 @@ export default function QuizPage() {
 		setTimeout(() => {
 			if (questionIndex === questionData.length - 1) {
 				navigate("/score");
-			} else dispatch(incrementIndex(questionIndex + 1));
+			} else dispatch(incrementIndex());
 		}, answerTimeout);
 	};
 
