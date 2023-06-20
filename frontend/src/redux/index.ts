@@ -2,8 +2,8 @@ import { createSlice, PayloadAction, configureStore } from "@reduxjs/toolkit";
 import { QuestionData } from "../../types/shared";
 
 interface QuestionState {
-	topic: string;
 	currentQuestion: number;
+	topic: string;
 	data: QuestionData[];
 }
 

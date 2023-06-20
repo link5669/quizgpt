@@ -3,23 +3,24 @@ import { RootState } from "../redux/index.ts";
 import { useSelector } from "react-redux";
 
 export default function QuizPage() {
-	const reduxQuestion = useSelector((state: RootState) => state.question);
+	const currentQuestion = useSelector(
+		(state: RootState) => state.question.currentQuestion
+	);
+	const questionData = useSelector((state: RootState) => state.question.data);
 
-	const questionNumber = reduxQuestion.currentQuestion;
-	const questionData = reduxQuestion.data;
+	console.log(questionData[currentQuestion]);
 
-	const currentQuestionData = questionData[questionNumber];
 	return (
 		<div className="flex flex-col gap-3 h-full font-default text-center py-12">
 			<ReturnToStart />
 			<p className="text-4xl mx-8">
 				{"Question #" +
-					(questionNumber + 1) +
+					(currentQuestion + 1) +
 					": " +
-					currentQuestionData.question}
+					questionData[currentQuestion].question}
 			</p>
 			<div className="flex flex-col justify-evenly items-center h-full">
-				{currentQuestionData.answers.map((ans, i) => {
+				{questionData[currentQuestion].answers.map((ans, i) => {
 					return (
 						<button
 							className="bg-gray-200 rounded-full w-[75%] py-4 hover-scale shadow-md"

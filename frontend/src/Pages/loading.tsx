@@ -2,26 +2,39 @@ import { BsFillLightbulbFill } from "react-icons/bs";
 import ReturnToStart from "../Components/returnToStart";
 import { useEffect } from "react";
 import axios from "axios";
-import { useSelector } from "react-redux";
-import { RootState } from "../redux";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState, setQuestionData } from "../redux";
+import { QuestionData } from "./../../types/shared.d";
+import { useNavigate } from "react-router-dom";
+
+interface ResponseType {
+	data: QuestionData[];
+	success: boolean;
+}
 
 export default function Loading() {
 	const topic = useSelector((state: RootState) => state.question.topic);
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		const fetchQuestions = async () => {
-			const questionData = await axios.get("/api/questions", {
-				params: {
-					topic: topic,
-					numQuestions: 10,
-					difficulty: "medium",
-				},
-			});
-			console.log(questionData);
+			await axios
+				.get<ResponseType>("/api/questions", {
+					params: {
+						topic: topic,
+						numQuestions: 10,
+						difficulty: "medium",
+					},
+				})
+				.then((response) => {
+					console.log(response.data.data);
+					dispatch(setQuestionData(response.data.data));
+					navigate("/quiz");
+				});
 		};
 		fetchQuestions().catch(console.error);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [dispatch, navigate, topic]);
 
 	return (
 		<>
