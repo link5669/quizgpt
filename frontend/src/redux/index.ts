@@ -1,52 +1,6 @@
-import { createSlice, PayloadAction, configureStore } from "@reduxjs/toolkit";
-import { QuestionData } from "../../types/shared";
-
-interface QuestionState {
-	currentQuestionIndex: number;
-	topic: string;
-	data: QuestionData[];
-}
-
-const initialState: QuestionState = {
-	topic: "",
-	currentQuestionIndex: 0,
-	data: [
-		{
-			question: "",
-			answers: [""],
-			correctAnswer: 0,
-		},
-	],
-};
-
-const questionSlice = createSlice({
-	name: "question",
-	initialState,
-	reducers: {
-		setQuestionIndex(state, action: PayloadAction<number>) {
-			state.currentQuestionIndex = action.payload;
-		},
-		setQuestionData(state, action: PayloadAction<QuestionData[]>) {
-			state.data = action.payload;
-		},
-		setQuestionTopic(state, action: PayloadAction<string>) {
-			state.topic = action.payload;
-		},
-	},
-});
-
-const userSlice = createSlice({
-	name: "user",
-	initialState: { score: 0 },
-	reducers: {
-		incrementScore(state) {
-			state.score++;
-		},
-		resetScore(state) {
-			state.score = 0;
-		},
-	},
-});
+import { configureStore } from "@reduxjs/toolkit";
+import questionSlice from "./slices/questionSlice.ts";
+import userSlice from "./slices/userSlice.ts";
 
 const store = configureStore({
 	reducer: { question: questionSlice.reducer, user: userSlice.reducer },
