@@ -2,14 +2,14 @@ import { createSlice, PayloadAction, configureStore } from "@reduxjs/toolkit";
 import { QuestionData } from "../../types/shared";
 
 interface QuestionState {
-	currentQuestion: number;
+	currentQuestionIndex: number;
 	topic: string;
 	data: QuestionData[];
 }
 
 const initialState: QuestionState = {
 	topic: "",
-	currentQuestion: 0,
+	currentQuestionIndex: 0,
 	data: [
 		{
 			question: "",
@@ -24,7 +24,7 @@ const questionSlice = createSlice({
 	initialState,
 	reducers: {
 		setQuestionIndex(state, action: PayloadAction<number>) {
-			state.currentQuestion = action.payload;
+			state.currentQuestionIndex = action.payload;
 		},
 		setQuestionData(state, action: PayloadAction<QuestionData[]>) {
 			state.data = action.payload;
@@ -35,27 +35,26 @@ const questionSlice = createSlice({
 	},
 });
 
-const scoreSlice = createSlice({
-	name: "score",
+const userSlice = createSlice({
+	name: "user",
 	initialState: { score: 0 },
 	reducers: {
-		increment(state) {
+		incrementScore(state) {
 			state.score++;
 		},
-
-		decrement(state) {
-			state.score--;
+		resetScore(state) {
+			state.score = 0;
 		},
 	},
 });
 
 const store = configureStore({
-	reducer: { question: questionSlice.reducer, score: scoreSlice.reducer },
+	reducer: { question: questionSlice.reducer, user: userSlice.reducer },
 });
 
 export const { setQuestionIndex, setQuestionData, setQuestionTopic } =
 	questionSlice.actions;
-export const scoreActions = scoreSlice.actions;
+export const { incrementScore } = userSlice.actions;
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 export default store;
