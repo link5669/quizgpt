@@ -2,6 +2,14 @@ import getGPTData from "./chat.js";
 
 const fetchQuestions = async (topic, numQuestions, difficulty) => {
   const response = await getGPTData(topic, numQuestions, difficulty);
+  const answerOptions = ["a)", "b)", "c)", "d)"];
+  const numAnswerOptions = answerOptions.length;
+  const numAnswerOptionsFound = answerOptions.reduce((count, option) => {
+    return count + (response.includes(option) ? 1 : 0);
+  }, 0);
+  if (numAnswerOptionsFound !== numAnswerOptions) {
+    throw { status: 509, message: "Response format not compatible" };
+  }
   return parseData(response);
 };
 
