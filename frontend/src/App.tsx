@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import QuizPage from "./Pages/quiz";
 import StartPage from "./Pages/start";
 import AboutPage from "./Pages/about";
+import ScorePage from "./Pages/score";
 
 function App() {
 	return (
@@ -15,6 +16,7 @@ function App() {
 					}
 				/>
 				<Route path="/about" element={<AboutPage />} />
+				<Route path="/score" element={<ScorePage />} />
 			</Routes>
 		</div>
 	);
