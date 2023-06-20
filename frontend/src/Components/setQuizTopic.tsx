@@ -2,11 +2,14 @@ import { useEffect, useState } from "react";
 import { BsFillArrowRightCircleFill } from "react-icons/bs";
 import { IconButton } from "./iconButton";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setQuestionTopic } from "../redux";
 
 const EnterTopic = () => {
 	const [topicData, setTopicData] = useState("");
 	const [error, setError] = useState("");
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		if (topicData.length > 0) {
@@ -20,7 +23,8 @@ const EnterTopic = () => {
 
 	const handleSubmit = () => {
 		if (topicData.length > 0) {
-			navigate("/loading", { state: topicData });
+			dispatch(setQuestionTopic(topicData));
+			navigate("/loading");
 		} else {
 			setError("Please enter a topic!");
 		}
