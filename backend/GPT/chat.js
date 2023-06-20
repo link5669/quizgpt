@@ -18,6 +18,22 @@ const getGPTData = async (topic, numQuestions, difficulty) => {
               reasonable amount of knowledge on the subject. 
               Please provide the answer following each question. 
               Do not provide any extraneous information.
+              Only provide questions with answers that have been 
+              verified with absolute certainty.
+              Format your response as follows:
+              1. How many toes does a polydactyl cat typically have?
+              a) 16
+              b) 12
+              c) 24
+              d) 18
+              Answer: b) 12
+
+              2. What is a cat's primary sense?
+              a) Sight
+              b) Taste
+              c) Touch
+              d) Hearing
+              Answer: a) Sight
               `,
     options: {
       model: "gpt35turbo",
