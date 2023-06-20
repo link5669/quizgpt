@@ -2,6 +2,14 @@ import getGPTData from "./chat.js";
 
 const fetchQuestions = async (topic, numQuestions, difficulty) => {
   const response = await getGPTData(topic, numQuestions, difficulty);
+  const answerOptions = ["a)", "b)", "c)", "d)"];
+  const numAnswerOptions = answerOptions.length;
+  const numAnswerOptionsFound = answerOptions.reduce((count, option) => {
+    return count + (response.includes(option) ? 1 : 0);
+  }, 0);
+  if (numAnswerOptionsFound !== numAnswerOptions) {
+    throw { status: 509, message: "Response format not compatible" };
+  }
   return parseData(response);
 };
 
@@ -13,12 +21,12 @@ function parseData(text) {
     const question = questions[i].split("\n");
     const parsedQuestion = {
       question: question[0].substring(question[0].indexOf(".") + 2),
-      answers: {
-        A: question[1].substring(3),
-        B: question[2].substring(3),
-        C: question[3].substring(3),
-        D: question[4].substring(3),
-      },
+      answers: [
+        question[1].substring(3),
+        question[2].substring(3),
+        question[3].substring(3),
+        question[4].substring(3),
+      ],
       correctAnswer: question[5].substring(question[5].indexOf(" ") + 1),
     };
     for (let i = 0; i < ["a)", "b)", "c)", "d)"].length; i++) {
