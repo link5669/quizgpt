@@ -13,7 +13,7 @@ export default function App() {
 				<Route path="/quiz" element={<QuizPage />} />
 				<Route path="/about" element={<AboutPage />} />
 				<Route path="/loading" element={<Loading />} />
-				<Route path="/score" element={<ScorePage />} />
+				<Route path="/score" element={<ScorePage topic="Atlanta" score={4} totalQuestions={10} />} />
 			</Routes>
 		</div>
 	);

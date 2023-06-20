@@ -1,15 +1,12 @@
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux";
 
-interface props {
-    topic: string;
-    score: number;
-    totalQuestions: number;
-}
+const topic = useSelector((state: RootState) => state.questionSlice.topic);
+const totalQuestions = useSelector((state: RootState) => state.questionSlice.data.length());
+const score = useSelector((state: RootState) => state.userSlice.score);
 
-export default function ScorePage({ topic, score, totalQuestions }: props) {
-    topic = "Boston";
-    score = 10;
-    totalQuestions = 10;
+export default function ScorePage() {
     return (
         <div className="flex flex-col gap-3 h-full font-default items-center text-center py-5">
             <div>
@@ -38,7 +35,6 @@ export default function ScorePage({ topic, score, totalQuestions }: props) {
                     </button>
                 </Link>
             </div>
-
         </div>
     )
 }
