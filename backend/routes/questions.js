@@ -10,7 +10,7 @@ router.get("/", async (req, res) => {
     try {
       const { topic, numQuestions, difficulty } = req.query;
       const questions = await fetchQuestions(topic, numQuestions, difficulty);
-      res.json({ success: true, data: JSON.parse(questions) });
+      res.json(JSON.parse(questions));
     } catch {
       res.status(500).send("Error occurred while fetching data from the API");
     }
