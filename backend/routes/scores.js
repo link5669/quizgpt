@@ -15,8 +15,7 @@ router.post("/", async (req, res) => {
 
 router.get("/", async (req, res) => {
     try {
-      getAllScores();
-      res.status(200).send("Fetched scores")
+        await getAllScores().then(result => res.status(200).send(result))
     } catch {
       res.status(500).send("Error occurred while fetching data from the API");
     }
