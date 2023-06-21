@@ -21,6 +21,7 @@ export default function Loading() {
 						numQuestions: 3,
 						difficulty: "medium",
 					},
+					headers: { Authorization: `Bearer ${process.env.BACKENDACCESSTOKEN}` }
 				})
 				.then((response) => {
 					dispatch(setQuestionData(response.data));
