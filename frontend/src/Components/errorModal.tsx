@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
+import { ERROR_TIMEOUT } from "../config";
 
 interface Props {
 	message?: string;
@@ -15,7 +16,7 @@ export default function ErrorModal({ message }: Props) {
 			setShow(true);
 			setTimeout(() => {
 				setShow(false);
-			}, 5000);
+			}, ERROR_TIMEOUT);
 		}
 	}, [message, message?.length]);
 

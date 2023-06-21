@@ -4,9 +4,9 @@ import { RootState, incrementIndex } from "../redux/index.ts";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { correctResponse, incorrectResponse } from "../helperFunctions.ts";
+import { ANSWER_TIMEOUT } from "../config.ts";
 
 export default function QuizPage() {
-	const answerTimeout = 2000;
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const questionIndex = useSelector(
@@ -27,9 +27,9 @@ export default function QuizPage() {
 	const handleButton = (buttonIndex: number, target: Element) => {
 		setDisableButtons(true);
 		if (buttonIndex === questionData[questionIndex].correctAnswer) {
-			correctResponse(target, dispatch, answerTimeout);
+			correctResponse(target, dispatch);
 		} else {
-			incorrectResponse(target, answerTimeout);
+			incorrectResponse(target);
 		}
 		setTimeout(() => {
 			if (questionIndex === questionData.length - 1) {
@@ -37,7 +37,7 @@ export default function QuizPage() {
 			}
 			dispatch(incrementIndex());
 			setDisableButtons(false);
-		}, answerTimeout);
+		}, ANSWER_TIMEOUT);
 	};
 
 	return (

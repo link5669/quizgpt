@@ -1,11 +1,12 @@
 import { BsFillLightbulbFill } from "react-icons/bs";
 import ReturnToStart from "../Components/returnToStart";
 import { useEffect } from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, setQuestionData } from "../redux";
 import { QuestionData } from "./../../types/shared.d";
 import { useNavigate } from "react-router-dom";
+import { getErrorMessage } from "../helperFunctions";
 
 export default function Loading() {
 	const topic = useSelector((state: RootState) => state.question.topic);
@@ -14,28 +15,27 @@ export default function Loading() {
 
 	useEffect(() => {
 		const fetchQuestions = async () => {
-			await axios
-				.get<QuestionData[]>("/api/questions", {
-					params: {
-						topic: topic,
-						numQuestions: 3,
-						difficulty: "medium",
-					},
-					headers: { Authorization: `Bearer ${process.env.BACKENDACCESSTOKEN}` }
-				})
-				.then((response) => {
-					dispatch(setQuestionData(response.data));
-					navigate("/quiz");
+			try {
+				await axios
+					.get<QuestionData[]>("/api/questions", {
+						params: {
+							topic: topic,
+							numQuestions: 3,
+							difficulty: "medium",
+						},
+					})
+					.then((response) => {
+						dispatch(setQuestionData(response.data));
+						navigate("/quiz");
+					});
+			} catch (err) {
+				const errorMessage = getErrorMessage(err as AxiosError);
+				navigate("/", {
+					state: errorMessage,
 				});
+			}
 		};
-		fetchQuestions().catch((err) => {
-			const errorMessage = err.clone();
-			console.log(typeof errorMessage);
-			console.log("error caught, returning home...");
-			// navigate("/", {
-			// 	state: err,
-			// });
-		});
+		fetchQuestions();
 	}, [dispatch, navigate, topic]);
 
 	return (

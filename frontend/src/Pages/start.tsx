@@ -1,11 +1,18 @@
 import { Link, useLocation } from "react-router-dom";
 import SetQuizTopic from "../Components/setQuizTopic";
 import ErrorModal from "../Components/errorModal";
+import { useEffect } from "react";
+import { ERROR_TIMEOUT } from "../config";
 
 export default function StartPage() {
 	const location = useLocation();
 	const errorMessage = location.state;
-	console.log("error message: " + errorMessage);
+	useEffect(() => {
+		setTimeout(() => {
+			// Clears error message on page reload
+			window.history.replaceState({}, document.title);
+		}, ERROR_TIMEOUT);
+	});
 	return (
 		<div className="flex flex-col text-center h-full justify-evenly">
 			<div className="flex flex-col">
