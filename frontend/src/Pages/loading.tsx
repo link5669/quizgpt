@@ -9,6 +9,8 @@ import { useNavigate } from "react-router-dom";
 
 export default function Loading() {
 	const topic = useSelector((state: RootState) => state.question.topic);
+	const numQuestions = useSelector((state: RootState) => state.question.numQuestions);
+	const difficulty = useSelector((state: RootState) => state.question.difficulty);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
@@ -18,8 +20,8 @@ export default function Loading() {
 				.get<QuestionData[]>("/api/questions", {
 					params: {
 						topic: topic,
-						numQuestions: 3,
-						difficulty: "medium",
+						numQuestions: numQuestions,
+						difficulty: difficulty,
 					},
 				})
 				.then((response) => {
