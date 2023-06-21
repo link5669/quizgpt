@@ -41,6 +41,9 @@ jobs:
   deploy:
     if: github.ref_name == 'master'
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 'backend'
     needs: build
     environment:
       name: 'Production'
