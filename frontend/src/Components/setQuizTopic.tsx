@@ -17,10 +17,6 @@ const EnterTopic = () => {
 		}
 	}, [topicData.length]);
 
-	const handleTextEntry = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setTopicData(event.target.value);
-	};
-
 	const handleSubmit = () => {
 		if (topicData.length > 0) {
 			dispatch(newTopic(topicData));
@@ -39,7 +35,7 @@ const EnterTopic = () => {
 					className="bg-transparent outline-none mx-4 text-xl"
 					type="text"
 					value={topicData}
-					onChange={handleTextEntry}
+					onChange={(e) => setTopicData(e.target.value)}
 					onKeyDown={(e) => {
 						if (e.key !== "Enter") return;
 						handleSubmit();

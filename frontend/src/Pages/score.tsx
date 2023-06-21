@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState, resetScore } from "../redux";
+import { RootState } from "../redux";
+import { handlePlayAgain } from "../helperFunctions";
 
 export default function ScorePage() {
 	const dispatch = useDispatch();
@@ -10,11 +11,6 @@ export default function ScorePage() {
 		(state: RootState) => state.question.data.length
 	);
 	const score = useSelector((state: RootState) => state.user.score);
-
-	const handlePlayAgain = () => {
-		dispatch(resetScore());
-		navigate("/loading");
-	};
 
 	return (
 		<div className="flex flex-col gap-3 h-full font-default items-center text-center py-5">
@@ -32,7 +28,7 @@ export default function ScorePage() {
 			</div>
 			<div className="flex flex-row py-5 px-2 gap-3 justify-evenly w-full">
 				<button
-					onClick={handlePlayAgain}
+					onClick={() => handlePlayAgain(dispatch, navigate)}
 					className="bg-gray-200 rounded-full hover-scale shadow-md py-5 px-5 sm:px-10"
 				>
 					<p className="text-lg">Regenerate Questions</p>

@@ -1,8 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import ReturnToStart from "../Components/returnToStart";
-import { RootState, incrementScore, incrementIndex } from "../redux/index.ts";
+import { RootState, incrementIndex } from "../redux/index.ts";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
+import { correctResponse, incorrectResponse } from "../helperFunctions.ts";
 
 export default function QuizPage() {
 	const answerTimeout = 2000;
@@ -23,16 +24,12 @@ export default function QuizPage() {
 		}
 	}, [navigate, questionData.length, questionIndex]);
 
-	const handleButton = (
-		buttonIndex: number,
-		event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-	) => {
-		const target = event.currentTarget as Element;
+	const handleButton = (buttonIndex: number, target: Element) => {
 		setDisableButtons(true);
 		if (buttonIndex === questionData[questionIndex].correctAnswer) {
-			correctResponse(target);
+			correctResponse(target, dispatch, answerTimeout);
 		} else {
-			incorrectResponse(target);
+			incorrectResponse(target, answerTimeout);
 		}
 		setTimeout(() => {
 			if (questionIndex === questionData.length - 1) {
@@ -40,21 +37,6 @@ export default function QuizPage() {
 			}
 			dispatch(incrementIndex());
 			setDisableButtons(false);
-		}, answerTimeout);
-	};
-
-	const correctResponse = (element: Element) => {
-		element.classList.add("bg-green-500");
-		dispatch(incrementScore());
-		setTimeout(() => {
-			element.classList.remove("bg-green-500");
-		}, answerTimeout);
-	};
-
-	const incorrectResponse = (element: Element) => {
-		element.classList.add("bg-red-500");
-		setTimeout(() => {
-			element.classList.remove("bg-red-500");
 		}, answerTimeout);
 	};
 
@@ -75,11 +57,11 @@ export default function QuizPage() {
 							questionData[questionIndex].answers.map((ans, i) => {
 								return (
 									<button
-										className="bg-gray-200 rounded-full w-[75%] py-4 hover-scale shadow-md"
+										className="bg-gray-200 rounded-full w-3/4 py-4 hover-scale shadow-md"
 										key={i}
 										onClick={(e) => {
 											e.preventDefault();
-											handleButton(i, e);
+											handleButton(i, e.currentTarget as Element);
 										}}
 										disabled={disableButtons}
 									>
