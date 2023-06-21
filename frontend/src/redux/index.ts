@@ -1,50 +1,39 @@
-import { createSlice, PayloadAction, configureStore } from '@reduxjs/toolkit';
-import { QuestionData } from '../../types/shared';
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { persistReducer, persistStore } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import questionSlice from "./slices/questionSlice.ts";
+import userSlice from "./slices/userSlice.ts";
 
-interface QuestionState {
-    currentQuestion: number;
-    questionData: QuestionData[] | null;
-}
+// Create a persist configuration object
+const persistConfig = {
+	key: "root",
+	storage,
+};
 
-const initialState: QuestionState = {
-    currentQuestion: 0,
-    questionData: null
-}
-
-const questionSlice = createSlice({
-    name: 'question',
-    initialState,
-    reducers: {
-        setQuestionIndex(state, action: PayloadAction<number>) {
-            state.currentQuestion = action.payload;
-        },
-        setQuestionData(state, action: PayloadAction<QuestionData[]>) {
-            state.questionData = action.payload;
-        }
-    }
+const rootReducer = combineReducers({
+	question: questionSlice.reducer,
+	user: userSlice.reducer,
 });
 
-const scoreSlice = createSlice({
-    name: 'score',
-    initialState: { score: 0},
-    reducers: {
-        increment(state) {
-            state.score++;
-        },
-
-        decrement(state) {
-            state.score--;
-        }
-    }
-});
-
+// Wrap your rootReducer with the persistReducer
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({
-    reducer: {question: questionSlice.reducer, score: scoreSlice.reducer},
+	reducer: persistedReducer,
+	middleware: (getDefaultMiddleware) =>
+		getDefaultMiddleware({
+			serializableCheck: {
+				// Ignore the non-serializable values in the `persist/PERSIST` action
+				ignoredActions: ["persist/PERSIST"],
+			},
+		}),
 });
 
-export const { setQuestionIndex } = questionSlice.actions;
-export const scoreActions = scoreSlice.actions;
-export type RootState = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
-export default store;
+const persistor = persistStore(store);
+
+export const { incrementIndex, setQuestionData, newTopic } =
+	questionSlice.actions;
+export const { incrementScore, resetScore } = userSlice.actions;
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+export { store, persistor };
