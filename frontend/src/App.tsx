@@ -9,11 +9,11 @@ export default function App() {
 	return (
 		<div className="w-screen h-screen bg-gray-100">
 			<Routes>
-				<Route path="/" element={<StartPage />} />
 				<Route path="/quiz" element={<QuizPage />} />
 				<Route path="/about" element={<AboutPage />} />
 				<Route path="/loading" element={<Loading />} />
 				<Route path="/score" element={<ScorePage />} />
+				<Route path="*" element={<StartPage />} />
 			</Routes>
 		</div>
 	);
