@@ -4,7 +4,7 @@ import { RootState, incrementScore, incrementIndex } from "../redux/index.ts";
 import { useSelector, useDispatch } from "react-redux";
 
 export default function QuizPage() {
-	const answerTimeout = 2500;
+	const answerTimeout = 2000;
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const questionIndex = useSelector(
@@ -26,7 +26,8 @@ export default function QuizPage() {
 		setTimeout(() => {
 			if (questionIndex === questionData.length - 1) {
 				navigate("/score");
-			} else dispatch(incrementIndex());
+			}
+			dispatch(incrementIndex());
 		}, answerTimeout);
 	};
 
@@ -48,12 +49,12 @@ export default function QuizPage() {
 	return (
 		<div className="flex flex-col gap-3 h-full font-default text-center py-12">
 			<ReturnToStart />
-			<p className="text-4xl mx-8">
+			<h1 className="text-2xl sm:text-3xl md:text-4xl mx-8">
 				{"Question #" +
 					(questionIndex + 1) +
 					": " +
 					questionData[questionIndex].question}
-			</p>
+			</h1>
 			<div className="absolute top-4 right-4 text-xl">
 				<h2>Score: {score}</h2>
 			</div>
@@ -68,7 +69,7 @@ export default function QuizPage() {
 								handleButton(i, e);
 							}}
 						>
-							<p className="text-2xl">{ans}</p>
+							<p className="text-2xl mx-3">{ans}</p>
 						</button>
 					);
 				})}
