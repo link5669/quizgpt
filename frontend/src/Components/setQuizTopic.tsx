@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { newTopic, resetScore } from "../redux";
 
-const EnterTopic = () => {
+const SetQuizTopic = () => {
 	const [topicData, setTopicData] = useState("");
 	const [error, setError] = useState("");
 	const navigate = useNavigate();
@@ -32,7 +32,7 @@ const EnterTopic = () => {
 			<p className={"text-red-600"}>{error}</p>
 			<div className="bg-gray-200 rounded-full custom-outline shadow-md flex flex-row">
 				<input
-					className="bg-transparent outline-none mx-4 text-xl"
+					className="bg-transparent placeholder-gray-400 focus-within:placeholder-gray-700 outline-none mx-4 text-xl"
 					type="text"
 					value={topicData}
 					onChange={(e) => setTopicData(e.target.value)}
@@ -54,4 +54,4 @@ const EnterTopic = () => {
 		</div>
 	);
 };
-export default EnterTopic;
+export default SetQuizTopic;

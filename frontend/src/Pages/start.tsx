@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import EnterTopic from "../Components/setQuizTopic";
+import SetQuizTopic from "../Components/setQuizTopic";
 
 export default function StartPage() {
 	return (
@@ -9,7 +9,7 @@ export default function StartPage() {
 				<h2 className="font-semibold">a project by PS interns 2023</h2>
 			</div>
 			<div className="flex flex-col items-center gap-6">
-				<EnterTopic />
+				<SetQuizTopic />
 				<Link to={"/about"}>
 					<button>
 						<div className="rounded-full bg-gray-200 hover-scale py-1">
