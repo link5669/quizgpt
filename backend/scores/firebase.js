@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import database from "../firebaseSetup.js";
-import { ref, set } from "firebase/database";
+import { ref, set, child, get } from "firebase/database";
 
 function writeScoreData(username, topic, score) {
   set(ref(database, "scores/" + uuidv4()), {
@@ -11,17 +11,16 @@ function writeScoreData(username, topic, score) {
 }
 
 async function getAllScores() {
-  const scoresRef = ref(database, "scores");
-  try {
-    const snapshot = await once(scoresRef, "value");
-    snapshot.forEach((childSnapshot) => {
-      const childKey = childSnapshot.key;
-      const childData = childSnapshot.val();
-      console.log(childKey, childData);
+    const dbRef = ref(database);
+    return get(child(dbRef, `scores`)).then((snapshot) => {
+      if (snapshot.exists()) {
+        return snapshot.val();
+      } else {
+        return "No data available"
+      }
+    }).catch((error) => {
+      console.error(error);
     });
-  } catch (error) {
-    console.error("Error fetching scores:", error);
   }
-}
 
 export { writeScoreData, getAllScores };
