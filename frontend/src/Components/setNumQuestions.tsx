@@ -24,11 +24,13 @@ const EnterNumQuestions = () => {
   };
 
   return (
-    <div className="flex flex-row bg-gray-200 rounded-full custom-outline shadow-md">
-      <select className = "bg-transparent text-lg text-gray-400 text-center px-6 py-2" 
-      value={numQuestions} 
-      onChange={handleChange}>
-        <option value="">select number of questions</option>
+    <div className="flex flex-row bg-gray-200 rounded-full custom-outline shadow-md px-8 py-1">
+      <p>Select # of Questions: </p>
+      <select
+        className="bg-transparent text-lg text-gray-400 pl-5"
+        value={numQuestions}
+        onChange={handleChange}
+      >
         {numOptions()}
       </select>
     </div>

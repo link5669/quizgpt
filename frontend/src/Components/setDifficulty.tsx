@@ -12,17 +12,18 @@ const EnterDifficulty = () => {
   };
 
   return (
-    <div className = "flex flex-row bg-gray-200 rounded-full custom-outline shadow-md">
-        <select 
-        className="bg-transparent outline-none text-lg text-gray-400 text-left px-20 py-2"
-        value = {difficulty}
-        onChange = {handleChange}
-        placeholder="select difficulty">
-          <option value="">select difficulty</option>
-          <option value="easy">easy</option>
-          <option value="medium">medium</option>
-          <option value="hard">hard</option>
-        </select>
+    <div className="flex flex-row bg-gray-200 rounded-full custom-outline shadow-md px-10 py-1">
+      <p>Select Difficulty: </p>
+      <select
+        className="bg-transparent outline-none text-gray-400 text-left pl-5"
+        value={difficulty}
+        onChange={handleChange}
+        placeholder="select difficulty"
+      >
+        <option value="easy">easy</option>
+        <option value="medium">medium</option>
+        <option value="hard">hard</option>
+      </select>
     </div>
   );
 };

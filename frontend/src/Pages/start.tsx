@@ -10,9 +10,17 @@ export default function StartPage() {
         <h1 className="text-6xl font-bold tracking-widest">quizify</h1>
         <h2 className="font-semibold">a project by PS interns 2023</h2>
       </div>
-      <div className="flex flex-col items-center gap-6">
-	    <EnterDifficulty />
-        <EnterNumQuestions />
+      <div className="flex flex-col items-center gap-6 text-gray-400">
+		<EnterNumQuestions />
+		<EnterDifficulty />
+        {/* <div className="flex flex-row">
+          <p>Select # of questions</p>
+          <EnterNumQuestions />
+        </div> */}
+		{/* <div className="flex flex-row">
+          <p>Select difficulty</p>
+          <EnterDifficulty />
+        </div> */}
         <EnterTopic />
         <Link to={"/about"}>
           <button>
