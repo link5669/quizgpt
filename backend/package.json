@@ -5,7 +5,9 @@
     "cors": "^2.8.5",
     "dotenv": "^16.1.4",
     "env": "^0.0.2",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "firebase": "^9.22.2",
+    "uuid": "^9.0.0"
   },
   "name": "quizify",
   "version": "1.0.0",
