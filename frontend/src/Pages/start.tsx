@@ -1,7 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import SetQuizTopic from "../Components/setQuizTopic";
+import ErrorModal from "../Components/errorModal";
 
 export default function StartPage() {
+	const location = useLocation();
+	const errorMessage = location.state;
+	console.log("error message: " + errorMessage);
 	return (
 		<div className="flex flex-col text-center h-full justify-evenly">
 			<div className="flex flex-col">
@@ -18,6 +22,7 @@ export default function StartPage() {
 					</button>
 				</Link>
 			</div>
+			<ErrorModal message={errorMessage} />
 		</div>
 	);
 }

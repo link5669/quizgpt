@@ -25,13 +25,16 @@ export default function Loading() {
 				.then((response) => {
 					dispatch(setQuestionData(response.data));
 					navigate("/quiz");
-				})
-				.catch((err) => {
-					console.error(err);
-					navigate("/");
 				});
 		};
-		fetchQuestions();
+		fetchQuestions().catch((err) => {
+			const errorMessage = err.clone();
+			console.log(typeof errorMessage);
+			console.log("error caught, returning home...");
+			// navigate("/", {
+			// 	state: err,
+			// });
+		});
 	}, [dispatch, navigate, topic]);
 
 	return (
