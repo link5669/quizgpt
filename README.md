@@ -8,4 +8,4 @@ This project was created during the Summer 2023 Publicis Sapient Software Engine
 *Leila Baniassad and Nolan Gelinas*
 
 ### Backend
-*Ananya Sharma and Miles Acquaviva*e
+*Ananya Sharma and Miles Acquaviva*
