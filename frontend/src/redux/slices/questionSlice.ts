@@ -22,6 +22,7 @@ const questionSlice = createSlice({
 		},
 		setQuestionData(state, action: PayloadAction<QuestionData[]>) {
 			state.data = action.payload;
+			state.currentQuestionIndex = 0;
 		},
 		newTopic(state, action: PayloadAction<string>) {
 			state.topic = action.payload;

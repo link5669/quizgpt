@@ -1,4 +1,8 @@
 import { FormEvent, PropsWithChildren } from "react";
+import {
+	getIconButtonClass,
+	iconButtonSubmitHandler,
+} from "../helperFunctions";
 
 interface Props {
 	hoverScale?: boolean;
@@ -8,26 +12,19 @@ interface Props {
 
 export const IconButton = ({
 	children,
-	hoverScale,
+	hoverScale = true,
 	action,
 	className,
 }: PropsWithChildren<Props>) => {
-	const getClass = () => {
-		let cls = "";
-		if (hoverScale) {
-			cls += "hover-scale";
-		}
-		return className ? cls.concat(" ", className) : cls;
-	};
-
-	const submitHandler = (e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		action ? action(e) : null;
-	};
-
 	return (
-		<form onSubmit={submitHandler} className="items-center flex">
-			<button type="submit" className={getClass()}>
+		<form
+			onSubmit={(e) => iconButtonSubmitHandler(e, action)}
+			className="items-center flex"
+		>
+			<button
+				type="submit"
+				className={getIconButtonClass(hoverScale, className)}
+			>
 				{children}
 			</button>
 		</form>
