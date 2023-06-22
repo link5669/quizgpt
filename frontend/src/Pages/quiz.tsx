@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import ReturnToStart from "../Components/returnToStart";
 import { RootState, incrementIndex } from "../redux/index.ts";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { correctResponse, incorrectResponse } from "../helperFunctions.ts";
 import { ANSWER_TIMEOUT } from "../config.ts";
 
@@ -14,8 +14,8 @@ export default function QuizPage() {
 	);
 	const questionData = useSelector((state: RootState) => state.question.data);
 	const score = useSelector((state: RootState) => state.user.score);
-
 	const [disableButtons, setDisableButtons] = useState(false);
+	const trueAnswerRef = useRef(null);
 
 	// Prevent users from going back to quiz after it is complete
 	useEffect(() => {
@@ -26,6 +26,7 @@ export default function QuizPage() {
 
 	const handleButton = (buttonIndex: number, target: Element) => {
 		setDisableButtons(true);
+		console.log(trueAnswerRef.current);
 		if (buttonIndex === questionData[questionIndex].correctAnswer) {
 			correctResponse(target, dispatch);
 		} else {
@@ -64,6 +65,11 @@ export default function QuizPage() {
 											handleButton(i, e.currentTarget as Element);
 										}}
 										disabled={disableButtons}
+										ref={
+											questionData[questionIndex].correctAnswer === i
+												? trueAnswerRef
+												: null
+										}
 									>
 										<p className="text-2xl mx-3">{ans}</p>
 									</button>
