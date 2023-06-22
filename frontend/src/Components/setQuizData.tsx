@@ -1,112 +1,122 @@
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { updateQuizData, resetScore } from "../redux";
 import { MyQuiz } from "../../types/shared";
-import { DEFAULT_DIFFICULTY } from "../config";
+import { DEFAULT_DIFFICULTY, DEFAULT_NUM_QUESTIONS } from "../config";
+import { twMerge } from "tailwind-merge";
 
 export default function SetQuizData() {
-  const [quizData, setQuizData] = useState<MyQuiz>({
-    numQuestions: 0,
-    difficulty: DEFAULT_DIFFICULTY,
-    topic: "",
-  });
-  const [error, setError] = useState("");
-  const [dropdownWidth, setDropdownWidth] = useState(6);
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+	const [quizData, setQuizData] = useState<MyQuiz>({
+		numQuestions: DEFAULT_NUM_QUESTIONS,
+		difficulty: DEFAULT_DIFFICULTY,
+		topic: "",
+	});
+	const [emptyTopicError, setEmptyTopicError] = useState(false);
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
 
-  const numOptions = (): JSX.Element[] => {
-    const options: JSX.Element[] = [];
-    for (let i = 1; i <= 20; i++) {
-      options.push(
-        <option key={i} value={i}>
-          {i}
-        </option>
-      );
-    }
-    return options;
-  };
+	useEffect(() => {
+		if (quizData.topic.length > 0) {
+			setEmptyTopicError(false);
+		}
+	}, [quizData.topic.length]);
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
-    setQuizData((prevState) => ({ ...prevState, [name]: value }));
-  };
+	const numOptions = (): JSX.Element[] => {
+		const options: JSX.Element[] = [];
+		for (let i = 20; i > 0; i--) {
+			options.push(
+				<option key={i} value={i}>
+					{i}
+				</option>
+			);
+		}
+		return options;
+	};
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
+	const handleInputChange = (
+		e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+	) => {
+		const { name, value } = e.target;
+		setQuizData((prevState) => ({ ...prevState, [name]: value }));
+	};
 
-    if (quizData.topic.length > 0) {
-      dispatch(updateQuizData(quizData));
-      dispatch(resetScore());
-      navigate("/loading");
-    } else {
-      setError("Please enter a topic!");
-    }
+	const handleSubmit = (e: FormEvent) => {
+		e.preventDefault();
 
-    console.log(quizData);
-  };
+		if (quizData.topic.length > 0) {
+			dispatch(updateQuizData(quizData));
+			dispatch(resetScore());
+			navigate("/loading");
+		} else {
+			setEmptyTopicError(true);
+		}
+	};
 
-  return (
-    <div className="flex flex-col gap-5 text-xl items-center ">
-      <form
-        onSubmit={handleSubmit}
-        name="quiz-form"
-        className="flex flex-col gap-5 text-xl text-gray-400"
-      >
-        <div className="text-xl">
-          <p className={"text-red-600"}>{error}</p>
-          <div className="bg-gray-200 rounded-full custom-outline shadow-md flex flex-row">
-            <input
-              className="bg-transparent text-gray-600 placeholder-gray-400 focus-within:placeholder-gray-700 outline-none py-4 mx-4 pl-5 text-xl"
-              type="text"
-              name="topic"
-              value={quizData.topic}
-              onChange={handleInputChange}
-              onKeyPress={(e) => {
-                if (e.key !== "Enter") return;
-                handleSubmit(e);
-              }}
-              placeholder="enter a topic"
-            ></input>
-          </div>
-        </div>
-        <div className="flex flex-col gap-3">
-          <div className="flex flex-row rounded-full custom-outline shadow-md bg-gray-200 px-10 py-2">
-            <p className="pr-3 text-gray-400">Select Difficulty: </p>
-            <select
-              className="bg-gray-300 rounded drop-shadow-sm text-gray-600 text-left pl-5"
-              value={quizData.difficulty}
-              onChange={handleInputChange}
-              name="difficulty"
-              placeholder="select difficulty"
-            >
-              <option value="easy">easy</option>
-              <option value="medium">medium</option>
-              <option value="hard">hard</option>
-            </select>
-          </div>
+	return (
+		<div className="flex flex-col gap-2 text-xl items-center text-gray-600 px-2">
+			<form
+				onSubmit={handleSubmit}
+				name="quiz-form"
+				className="flex flex-col gap-2"
+			>
+				<div className="text-xl">
+					<p
+						className={twMerge(
+							"opacity-0 text-red-600",
+							emptyTopicError && "opacity-100"
+						)}
+					>
+						Please enter a topic!
+					</p>
+					<div className="bg-gray-200 rounded-full custom-outline shadow-md flex flex-row">
+						<input
+							className="bg-transparent w-full text-gray-700 placeholder-gray-500 focus-within:placeholder-gray-700 outline-none py-5 mx-4 pl-5 text-xl"
+							type="text"
+							name="topic"
+							value={quizData.topic}
+							onChange={handleInputChange}
+							onKeyDown={(e) => {
+								if (e.key !== "Enter") return;
+								handleSubmit(e);
+							}}
+							placeholder="enter a topic"
+						></input>
+					</div>
+				</div>
+				<div className="flex flex-row rounded-full custom-outline shadow-md bg-gray-200 px-8 py-2">
+					<p className="pr-3">Select Difficulty: </p>
+					<select
+						className="bg-gray-300 rounded drop-shadow-sm text-left ml-5 pl-2 outline-none"
+						value={quizData.difficulty}
+						onChange={handleInputChange}
+						name="difficulty"
+					>
+						<option value="extremely hard">hard+</option>
+						<option value="hard">hard</option>
+						<option value="medium">medium</option>
+						<option value="easy">easy</option>
+					</select>
+				</div>
 
-          <div className="flex flex-row rounded-full custom-outline bg-gray-200 shadow-md px-8 py-2">
-            <p className="pr-2">Select # of Questions: </p>
-            <select
-              className="bg-gray-300 drop-shadow-md rounded text-gray-600 pl-5"
-              value={quizData.numQuestions}
-              onChange={handleInputChange}
-              name="numQuestions"
-            >
-              {numOptions()}
-            </select>
-          </div>
-        </div>
-      </form>
-      <button onClick={handleSubmit}>
-        <div className="rounded-full bg-gray-200 hover-scale py-1">
-          <p className="mx-6 text-gray-500">Start Quiz</p>
-        </div>
-      </button>
-    </div>
-  );
+				<div className="flex flex-row rounded-full custom-outline bg-gray-200 shadow-md px-8 py-2">
+					<p className="pr-2">Select # of Questions:</p>
+					<select
+						className="bg-gray-300 drop-shadow-md rounded pl-2 ml-3 outline-none"
+						value={quizData.numQuestions}
+						onChange={handleInputChange}
+						name="numQuestions"
+					>
+						{numOptions()}
+					</select>
+				</div>
+			</form>
+			<button
+				onClick={handleSubmit}
+				className="rounded-full bg-gray-200 hover-scale py-1 px-6 custom-outline"
+			>
+				Start Quiz
+			</button>
+		</div>
+	);
 }

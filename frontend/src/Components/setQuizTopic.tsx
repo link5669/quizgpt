@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { BsFillArrowRightCircleFill } from "react-icons/bs";
 import { IconButton } from "./iconButton";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { newTopic, resetScore } from "../redux";
+import { resetScore } from "../redux";
 import { twMerge } from "tailwind-merge";
 
 const SetQuizTopic = () => {
@@ -20,7 +19,6 @@ const SetQuizTopic = () => {
 
 	const handleSubmit = () => {
 		if (topicData.length > 0) {
-			dispatch(newTopic(topicData));
 			dispatch(resetScore());
 			navigate("/loading");
 		} else {
@@ -52,16 +50,16 @@ const SetQuizTopic = () => {
 				></input>
 			</div>
 			<IconButton
-					className="text-xl text-gray-700 py-3"
-					hoverScale={false}
-					action={handleSubmit}
-				>
-					<button>
-						<div className="rounded-full bg-gray-500 hover-scale py-1 px-4">
-							<p>start quiz</p>
-						</div>
-					</button>
-				</IconButton>
+				className="text-xl text-gray-700 py-3"
+				hoverScale={false}
+				action={handleSubmit}
+			>
+				<button>
+					<div className="rounded-full bg-gray-500 hover-scale py-1 px-4">
+						<p>start quiz</p>
+					</div>
+				</button>
+			</IconButton>
 		</div>
 	);
 };

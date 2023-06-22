@@ -6,7 +6,9 @@ import { handlePlayAgain } from "../helperFunctions";
 export default function ScorePage() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const topic = useSelector((state: RootState) => state.question.topic);
+	const topic = useSelector(
+		(state: RootState) => state.question.quizData.topic
+	);
 	const totalQuestions = useSelector(
 		(state: RootState) => state.question.data.length
 	);
