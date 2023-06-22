@@ -1,9 +1,14 @@
 import { AnyAction, Dispatch } from "@reduxjs/toolkit";
-import { incrementScore, resetScore } from "./redux";
+import { incrementScore, resetScore, resetIndex } from "./redux";
 import { NavigateFunction } from "react-router-dom";
 import { FormEvent } from "react";
 import { AxiosError } from "axios";
-import { ANSWER_TIMEOUT, CORRECT_COLOR, INCORRECT_COLOR } from "./config";
+import {
+	ANSWER_TIMEOUT,
+	CORRECT_COLOR,
+	INCORRECT_COLOR,
+	TRUE_COLOR,
+} from "./config";
 
 export const correctResponse = (
 	element: Element,
@@ -16,10 +21,15 @@ export const correctResponse = (
 	}, ANSWER_TIMEOUT);
 };
 
-export const incorrectResponse = (element: Element) => {
+export const incorrectResponse = (
+	element: Element,
+	trueAnswer: Element | null
+) => {
 	element.classList.add(INCORRECT_COLOR);
+	trueAnswer && trueAnswer.classList.add(TRUE_COLOR);
 	setTimeout(() => {
 		element.classList.remove(INCORRECT_COLOR);
+		trueAnswer && trueAnswer.classList.remove(TRUE_COLOR);
 	}, ANSWER_TIMEOUT);
 };
 
@@ -28,6 +38,7 @@ export const handlePlayAgain = (
 	navigate: NavigateFunction
 ) => {
 	dispatch(resetScore());
+	dispatch(resetIndex());
 	navigate("/loading");
 };
 

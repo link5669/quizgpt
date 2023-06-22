@@ -24,13 +24,12 @@ export default function QuizPage() {
 		}
 	}, [navigate, questionData.length, questionIndex]);
 
-	const handleButton = (buttonIndex: number, target: Element) => {
+	const handleButton = (target: Element) => {
 		setDisableButtons(true);
-		console.log(trueAnswerRef.current);
-		if (buttonIndex === questionData[questionIndex].correctAnswer) {
+		if (trueAnswerRef.current === target) {
 			correctResponse(target, dispatch);
 		} else {
-			incorrectResponse(target);
+			incorrectResponse(target, trueAnswerRef.current);
 		}
 		setTimeout(() => {
 			if (questionIndex === questionData.length - 1) {
@@ -52,29 +51,38 @@ export default function QuizPage() {
 							": " +
 							questionData[questionIndex].question}
 					</h1>
-					<h2 className="absolute top-4 right-4 text-xl">Score: {score}</h2>
+					<h2 className="absolute top-4 right-4 text-xl">
+						Score: {score}
+					</h2>
 					<div className="flex flex-col justify-evenly items-center h-full gap-2">
 						{questionData[questionIndex] &&
-							questionData[questionIndex].answers.map((ans, i) => {
-								return (
-									<button
-										className="bg-gray-200 rounded-full w-3/4 py-4 hover-scale shadow-md"
-										key={i}
-										onClick={(e) => {
-											e.preventDefault();
-											handleButton(i, e.currentTarget as Element);
-										}}
-										disabled={disableButtons}
-										ref={
-											questionData[questionIndex].correctAnswer === i
-												? trueAnswerRef
-												: null
-										}
-									>
-										<p className="text-2xl mx-3">{ans}</p>
-									</button>
-								);
-							})}
+							questionData[questionIndex].answers.map(
+								(ans, i) => {
+									return (
+										<button
+											className="bg-gray-200 rounded-full w-3/4 py-4 hover-scale shadow-md"
+											key={i}
+											onClick={(e) => {
+												e.preventDefault();
+												handleButton(
+													e.currentTarget as Element
+												);
+											}}
+											disabled={disableButtons}
+											ref={
+												questionData[questionIndex]
+													.correctAnswer === i
+													? trueAnswerRef
+													: null
+											}
+										>
+											<p className="text-2xl mx-3">
+												{ans}
+											</p>
+										</button>
+									);
+								}
+							)}
 					</div>
 				</>
 			)}

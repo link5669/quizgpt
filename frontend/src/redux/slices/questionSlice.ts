@@ -18,6 +18,9 @@ const questionSlice = createSlice({
 		incrementIndex(state) {
 			state.currentQuestionIndex = state.currentQuestionIndex + 1;
 		},
+		resetIndex(state) {
+			state.currentQuestionIndex = 0;
+		},
 		setQuestionData(state, action: PayloadAction<QuestionData[]>) {
 			state.data = action.payload;
 		},

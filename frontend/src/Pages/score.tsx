@@ -20,7 +20,9 @@ export default function ScorePage() {
 				<h2 className="text-center text-4xl">{topic}</h2>
 			</div>
 			{/* final score block */}
-			<h1 className="text-2xl pt-8 pb-3 text-gray-600 mx-8">Final Score:</h1>
+			<h1 className="text-2xl pt-8 pb-3 text-gray-600 mx-8">
+				Final Score:
+			</h1>
 			<div className="flex flex-col gap-5 outline outline-gray-500 outline-4 text-center py-16 rounded-3xl">
 				<p className="text-8xl mx-10 sm:mx-20">
 					{score + "/" + totalQuestions}
@@ -35,7 +37,7 @@ export default function ScorePage() {
 				</button>
 				<Link to="/">
 					<button className="bg-gray-200 rounded-full hover-scale shadow-md py-5 px-5 sm:px-10">
-						<p className="text-lg">Select a New Topic</p>
+						<p className="text-lg">Select New Topic</p>
 					</button>
 				</Link>
 			</div>
