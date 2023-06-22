@@ -1,7 +1,7 @@
 import { useState, FormEvent, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { updateQuizData, resetScore } from "../redux";
+import { updateQuizData, resetScore, resetIndex } from "../redux";
 import { MyQuiz } from "../../types/shared";
 import { DEFAULT_DIFFICULTY, DEFAULT_NUM_QUESTIONS } from "../config";
 import { twMerge } from "tailwind-merge";
@@ -46,6 +46,7 @@ export default function SetQuizData() {
 
 		if (quizData.topic.length > 0) {
 			dispatch(updateQuizData(quizData));
+			dispatch(resetIndex());
 			dispatch(resetScore());
 			navigate("/loading");
 		} else {
