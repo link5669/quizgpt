@@ -14,7 +14,7 @@ export default function StartPage() {
 			// Clears error message on page reload
 			window.history.replaceState({}, document.title);
 		}, ERROR_TIMEOUT);
-	});
+	}, [errorMessage]);
 	return (
 		<div className="flex flex-col text-center h-full justify-evenly">
 			<div className="flex flex-col">

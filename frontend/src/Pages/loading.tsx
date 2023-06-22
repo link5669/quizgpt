@@ -1,7 +1,7 @@
 import { BsFillLightbulbFill } from "react-icons/bs";
 import ReturnToStart from "../Components/returnToStart";
 import { useEffect } from "react";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, setQuestionData } from "../redux";
 import { QuestionData } from "./../../types/shared.d";
@@ -32,12 +32,15 @@ export default function Loading() {
 				.then((response) => {
 					dispatch(setQuestionData(response.data));
 					navigate("/quiz");
+				})
+				.catch((err) => {
+					const errorMessage = getErrorMessage(err);
+					navigate("/", {
+						state: errorMessage,
+					});
 				});
 		};
-		fetchQuestions().catch((err) => {
-			console.error(err);
-			navigate("/");
-		});
+		fetchQuestions();
 	}, [
 		dispatch,
 		navigate,

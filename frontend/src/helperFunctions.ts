@@ -51,14 +51,31 @@ export const getErrorMessage = (err: AxiosError) => {
 	let status = "";
 	if (err.response) {
 		// The client was given an error response (5xx, 4xx)
-		console.log(err.response.data);
-		console.log(err.response.status);
-		console.log(err.response.headers);
+		switch (err.response.status) {
+			case 400:
+				status = "Bad Request";
+				break;
+			case 401:
+				status = "Unauthorized (No Auth Provided)";
+				break;
+			case 403:
+				status = "Forbidden";
+				break;
+			case 404:
+				status = "Not Found";
+				break;
+			case 500:
+				status = "Internal Server Error";
+				break;
+			default:
+				status = "Unhandled Error";
+		}
+		status = "(" + err.response.status + ") " + status;
 	} else if (err.request) {
 		// The client never received a response, and the request was never left
 		status = "Error accessing backend API";
 	} else {
-		// Anything else
+		status = "Unknown Error";
 	}
 	return status;
 };
