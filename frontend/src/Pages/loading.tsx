@@ -22,10 +22,7 @@ export default function Loading() {
 						topic: questionState.topic,
 						numQuestions: questionState.numQuestions,
 						difficulty: questionState.difficulty,
-					},
-					headers: {
-						Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
-					},
+					}
 				})
 				.then((response) => {
 					dispatch(setQuestionData(response.data));
