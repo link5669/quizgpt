@@ -1,6 +1,6 @@
 import axios from "axios";
 import "dotenv/config";
-
+ 
 const getGPTData = async (topic, numQuestions, difficulty) => {
   const headers = {
     Authorization: `Bearer ${process.env.PSCHATACCESSTOKEN}`,
