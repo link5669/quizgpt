@@ -5,6 +5,7 @@ import { handlePlayAgain, getScores } from "../helperFunctions";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Score } from "../../types/shared";
+import {FormEvent} from 'react';
 
 export default function ScorePage() {
 	const dispatch = useDispatch();
