@@ -21,15 +21,12 @@ export const correctResponse = (
 	}, ANSWER_TIMEOUT);
 };
 
-export const incorrectResponse = (
-	element: Element,
-	trueAnswer: Element | null
-) => {
+export const incorrectResponse = (element: Element, trueAnswer: Element) => {
 	element.classList.add(INCORRECT_COLOR);
-	trueAnswer && trueAnswer.classList.add(TRUE_COLOR);
+	trueAnswer.classList.add(TRUE_COLOR);
 	setTimeout(() => {
 		element.classList.remove(INCORRECT_COLOR);
-		trueAnswer && trueAnswer.classList.remove(TRUE_COLOR);
+		trueAnswer.classList.remove(TRUE_COLOR);
 	}, ANSWER_TIMEOUT);
 };
 

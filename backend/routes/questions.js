@@ -4,6 +4,16 @@ import fetchQuestions from "../GPT/getFormattedQuestions.js";
 const router = express.Router();
 
 router.get("/", async (req, res) => {
+  var allowedOrigin = false
+  Object.entries(req).forEach(element => {
+    if (element[0] == 'rawHeaders') {
+      const originString = element[1][element[1].indexOf("Host") + 1]
+      if (originString.includes("quizify") || originString.includes("localhost") || originString.includes("azure")) {
+        allowedOrigin = true
+      }
+    }
+  })
+  if (allowedOrigin) {
     if (!(req.query.topic && req.query.numQuestions && req.query.difficulty)) {
       res.status(400).send("Missing parameters")
     } else {
