@@ -22,14 +22,19 @@ export default function Loading() {
 						numQuestions: questionState.numQuestions,
 						difficulty: questionState.difficulty,
 					},
+					headers: {
+						Authorization: `Bearer ${
+							import.meta.env.VITE_BACKEND_ACCESS_TOKEN
+						}`,
+					},
 				})
 				.then((response) => {
 					dispatch(setQuestionData(response.data));
 					navigate("/quiz");
 				});
 		};
-		fetchQuestions().catch(() => {
-			console.log("error caught, returning home...");
+		fetchQuestions().catch((err) => {
+			console.error(err);
 			navigate("/");
 		});
 	}, [

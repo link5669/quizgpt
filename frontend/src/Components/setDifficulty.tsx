@@ -1,14 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { newDifficulty } from "../redux";
 
 const EnterDifficulty = () => {
-	const [difficulty, setDifficulty] = useState("");
+	const [difficulty, setDifficulty] = useState("medium");
 	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(newDifficulty(difficulty));
+	}, [difficulty, dispatch]);
 
 	const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		setDifficulty(event.target.value);
-		dispatch(newDifficulty(difficulty));
 	};
 
 	return (
