@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { newDifficulty } from "../redux";
+import { DEFAULT_DIFFICULTY } from "../config";
 
 const EnterDifficulty = () => {
-	const [difficulty, setDifficulty] = useState("medium");
+	const [difficulty, setDifficulty] = useState(DEFAULT_DIFFICULTY);
 	const dispatch = useDispatch();
 
 	useEffect(() => {

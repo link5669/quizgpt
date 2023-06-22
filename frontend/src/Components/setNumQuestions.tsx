@@ -1,14 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { newNumQuestions } from "../redux";
+import { DEFAULT_NUM_QUESTIONS } from "../config";
 
 const EnterNumQuestions = () => {
-	const [numQuestions, setNumQuestions] = useState(10);
+	const [numQuestions, setNumQuestions] = useState(DEFAULT_NUM_QUESTIONS);
 	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(newNumQuestions(numQuestions));
+	}, [dispatch, numQuestions]);
 
 	const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		setNumQuestions(parseInt(event.target.value));
-		dispatch(newNumQuestions(numQuestions));
 	};
 
 	const numOptions = (): JSX.Element[] => {
