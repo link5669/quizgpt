@@ -25,6 +25,7 @@ router.get("/", async (req, res) => {
         res.status(500).send("Error occurred while fetching data from the API");
       }
     }
+  }
 }); 
 
 export default router;
