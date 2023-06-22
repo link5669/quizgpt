@@ -23,10 +23,10 @@ export const correctResponse = (
 
 export const incorrectResponse = (element: Element, trueAnswer: Element) => {
 	element.classList.add(INCORRECT_COLOR);
-	trueAnswer.classList.add("bg-black");
+	trueAnswer.classList.add(TRUE_COLOR);
 	setTimeout(() => {
 		element.classList.remove(INCORRECT_COLOR);
-		trueAnswer.classList.remove("bg-black");
+		trueAnswer.classList.remove(TRUE_COLOR);
 	}, ANSWER_TIMEOUT);
 };
 
