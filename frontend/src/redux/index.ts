@@ -36,7 +36,7 @@ export const {
   setQuestionData,
   updateQuizData,
 } = questionSlice.actions;
-export const { incrementScore, resetScore } = userSlice.actions;
+export const { incrementScore, resetScore, resetIndex } = userSlice.actions;
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 export { store, persistor };
