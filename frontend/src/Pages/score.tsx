@@ -2,6 +2,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux";
 import { handlePlayAgain } from "../helperFunctions";
+import axios from "axios";
+import { useState } from "react";
 
 export default function ScorePage() {
 	const dispatch = useDispatch();
@@ -11,6 +13,20 @@ export default function ScorePage() {
 		(state: RootState) => state.question.data.length
 	);
 	const score = useSelector((state: RootState) => state.user.score);
+	const [name, setName] = useState("")
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		const postScore = async () => {
+			await axios
+				.post(`/api/scores?
+						username=${name}
+						&topic=${topic}
+						&score=${score}`)
+			.then(response => console.log(response))
+		}	
+		postScore()
+	};
 
 	return (
 		<div className="flex flex-col gap-3 h-full font-default items-center text-center py-5">
@@ -41,6 +57,24 @@ export default function ScorePage() {
 					</button>
 				</Link>
 			</div>
+			<form className="flex flex-col gap-3 items-center">
+				<label className="text-2xl text-gray-600 mx-8 pb-3">
+					Enter your name:
+				</label>
+				<input
+					type="text"
+					onChange={(e) => setName(e.target.value)}
+					className="outline outline-gray-500 outline-4 py-3 px-16 sm:px-32 rounded-2xl"
+					required
+				/>
+				<button
+					type="submit"
+					onClick={handleSubmit}
+					className="bg-gray-200 rounded-full hover-scale shadow-md py-5 px-5 sm:px-10"
+				>
+					Submit to leaderboard
+				</button>
+			</form>
 		</div>
 	);
 }
