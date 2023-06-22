@@ -5,7 +5,7 @@ import { handlePlayAgain, getScores } from "../helperFunctions";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Score } from "../../types/shared";
-import {FormEvent} from 'react';
+import { FormEvent } from "react";
 
 export default function ScorePage() {
 	const dispatch = useDispatch();
@@ -38,32 +38,68 @@ export default function ScorePage() {
 		postScore();
 	};
 
+	useEffect(() => {
+		getScores().then((response) => {
+			setScores(response);
+		});
+	}, []);
+
 	return (
 		<div className="flex flex-col gap-3 h-full font-default items-center text-center py-5">
 			{/* quiz topic block */}
 			<div className="flex flex-row gap-10 flex-wrap basis-1/2">
-			<div className="flex flex-col">
-				<h1 className="text-2xl text-gray-600 mx-8 pb-3">Quiz Topic:</h1>
-				<div className="outline outline-gray-500 outline-4 py-3 px-16 sm:px-32 rounded-2xl">
-					<h2 className="text-center text-4xl">{topic}</h2>
+				<div className="flex flex-col">
+					<h1 className="text-2xl text-gray-600 mx-8 pb-3">
+						Quiz Topic:
+					</h1>
+					<div className="outline outline-gray-500 outline-4 py-3 px-16 sm:px-32 rounded-2xl">
+						<h2 className="text-center text-4xl">{topic}</h2>
+					</div>
+				</div>
+				{/* final score block */}
+				<div className="flex flex-col">
+					<h1 className="text-2xl text-gray-800 mx-8 pb-3">
+						Final Score:
+					</h1>
+					<div className="outline outline-gray-500 outline-4 py-3 px-16 sm:px-32 rounded-2xl">
+						<h2 className="text-center text-4xl">
+							{score + "/" + totalQuestions}
+						</h2>
+					</div>
 				</div>
 			</div>
-			{/* final score block */}
 			<div className="flex flex-col">
-				<h1 className="text-2xl text-gray-800 mx-8 pb-3">
-				Final Score:
+				<h1 className="text-2xl text-gray-600 mx-8 pb-5">
+					Leaderboard:
 				</h1>
-				<div className="outline outline-gray-500 outline-4 py-3 px-16 sm:px-32 rounded-2xl">
-				<h2 className="text-center text-4xl">
-					{score + "/" + totalQuestions}
-				</h2>
-				</div>
-			</div>
-			</div>
-			<div className="flex flex-col">
-				<h1 className="text-2xl text-gray-600 mx-8 pb-5">Leaderboard:</h1>
-				<div className="outline outline-gray-500 outline-4 py-16 px-32 sm:px-32 rounded-2xl">
-					<h2 className="text-center text-4xl">{topic}</h2>
+				<div className="outline outline-gray-500 outline-4 py-6 px-32 sm:px-32 rounded-2xl">
+					<h2 className="text-center text-4xl">
+						{scores.length === 0 ? (
+							<p>Loading...</p>
+						) : (
+							<table>
+								<thead>
+									<tr>
+										<th>Score</th>
+										<th>Topic</th>
+										<th>Username</th>
+									</tr>
+								</thead>
+								<br></br>
+								<tbody>
+									{scores.map((item, index) => {
+										return index < 4 ? (
+											<tr key={index}>
+												<td>{item.score}</td>
+												<td>{item.topic}</td>
+												<td>{item.username}</td>
+											</tr>
+										) : null;
+									})}
+								</tbody>
+							</table>
+						)}
+					</h2>
 				</div>
 			</div>
 			<form className="flex flex-row gap-3 items-center">
@@ -72,7 +108,7 @@ export default function ScorePage() {
 				</label>
 				<input
 					type="text"
-					onChange={(e) => setName(e.target.value)}
+					onChange={(e) => setUsername(e.target.value)}
 					className="outline outline-gray-500 outline-4 py-3 px-16 sm:px-32 rounded-2xl"
 					required
 				/>
