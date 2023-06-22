@@ -34,9 +34,7 @@ const persistor = persistStore(store);
 export const {
   incrementIndex,
   setQuestionData,
-  newTopic,
-  newNumQuestions,
-  newDifficulty,
+  updateQuizData,
 } = questionSlice.actions;
 export const { incrementScore, resetScore } = userSlice.actions;
 export type RootState = ReturnType<typeof store.getState>;

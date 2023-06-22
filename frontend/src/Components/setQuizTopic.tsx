@@ -42,15 +42,18 @@ const SetQuizTopic = () => {
 					}}
 					placeholder="enter a topic"
 				></input>
-
-				<IconButton
-					className="text-[50px] text-gray-700"
+			</div>
+			<IconButton
+					className="text-xl text-gray-700 py-3"
 					hoverScale={false}
 					action={handleSubmit}
 				>
-					<BsFillArrowRightCircleFill />
+					<button>
+						<div className="rounded-full bg-gray-500 hover-scale py-1 px-4">
+							<p>start quiz</p>
+						</div>
+					</button>
 				</IconButton>
-			</div>
 		</div>
 	);
 };

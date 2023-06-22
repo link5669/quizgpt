@@ -1,12 +1,11 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { QuestionData } from "../../../types/shared";
 import { QuizState } from "../../../types/shared";
+import { MyQuiz } from "../../../types/shared";
 
 const initialState: QuizState = {
+  quizData: {numQuestions: 0, difficulty: "", topic: ""},
   currentQuestionIndex: 0,
-  topic: "",
-  numQuestions: 0,
-  difficulty: "",
   data: []
 };
 
@@ -20,16 +19,10 @@ const questionSlice = createSlice({
     setQuestionData(state, action: PayloadAction<QuestionData[]>) {
       state.data = action.payload;
     },
-    newNumQuestions(state, action: PayloadAction<number>) {
-      state.numQuestions = action.payload;
-    },
-    newDifficulty(state, action: PayloadAction<string>) {
-      state.difficulty = action.payload;
-    },
-    newTopic(state, action: PayloadAction<string>) {
-      state.topic = action.payload;
-      state.currentQuestionIndex = 0;
-      state.data = [];
+    updateQuizData(state, action: PayloadAction<MyQuiz>) {
+      state.quizData.numQuestions = action.payload.numQuestions;
+      state.quizData.difficulty = action.payload.difficulty;
+      state.quizData.topic = action.payload.topic;
     },
   },
 });
