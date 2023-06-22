@@ -4,6 +4,7 @@ import { RootState } from "../redux";
 import { handlePlayAgain, getScores } from "../helperFunctions";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Score } from "../../types/shared";
 
 export default function ScorePage() {
 	const dispatch = useDispatch();
@@ -13,8 +14,8 @@ export default function ScorePage() {
 		(state: RootState) => state.question.data.length
 	);
 	const score = useSelector((state: RootState) => state.user.score);
-	const [name, setName] = useState("");
-	const [scores, setScores] = useState([]);
+	const [username, setUsername] = useState("");
+	const [scores, setScores] = useState<Score[]>([]);
 	/**
 	 * scores has an array of scores fetched from Firebase, fetched on page load
 	 * scores is an array with a series of objects in the format
@@ -27,7 +28,7 @@ export default function ScorePage() {
 			await axios
 				.post(
 					`/api/scores?
-						username=${name}
+						username=${username}
 						&topic=${topic}
 						&score=${score}`
 				)
@@ -79,7 +80,7 @@ export default function ScorePage() {
 					</label>
 					<input
 						type="text"
-						onChange={(e) => setName(e.target.value)}
+						onChange={(e) => setUsername(e.target.value)}
 						className="outline outline-gray-500 outline-4 py-3 px-16 sm:px-32 rounded-2xl"
 						required
 					/>

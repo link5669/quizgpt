@@ -2,7 +2,8 @@ import { AnyAction, Dispatch } from "@reduxjs/toolkit";
 import { incrementScore, resetScore, resetIndex } from "./redux";
 import { NavigateFunction } from "react-router-dom";
 import { FormEvent } from "react";
-import axios, { AxiosError } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
+import { Score } from "../types/shared";
 import {
 	ANSWER_TIMEOUT,
 	CORRECT_COLOR,
@@ -55,9 +56,9 @@ export const iconButtonSubmitHandler = (
 	action ? action(e) : null;
 };
 
-function formatRecievedScores(scores) {
+function formatRecievedScores(scores: any): Score[] {
 	const scoresCollection = scores.data
-	var scoresArr = []
+	var scoresArr: Score[] = []
 	for (var e in scoresCollection) {
 		scoresArr.push(scoresCollection[e])
 	}

@@ -17,3 +17,9 @@ export interface UserData {
 	score: number;
 	quizState: QuizState;
 }
+
+export interface Score {
+	username: string,
+	topic: string,
+	score: int
+}
