@@ -4,16 +4,17 @@ import { IconButton } from "./iconButton";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { newTopic, resetScore } from "../redux";
+import { twMerge } from "tailwind-merge";
 
 const SetQuizTopic = () => {
 	const [topicData, setTopicData] = useState("");
-	const [error, setError] = useState("");
+	const [emptyTopicError, setEmptyTopicError] = useState(false);
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
 	useEffect(() => {
 		if (topicData.length > 0) {
-			setError("");
+			setEmptyTopicError(false);
 		}
 	}, [topicData.length]);
 
@@ -23,13 +24,20 @@ const SetQuizTopic = () => {
 			dispatch(resetScore());
 			navigate("/loading");
 		} else {
-			setError("Please enter a topic!");
+			setEmptyTopicError(true);
 		}
 	};
 
 	return (
 		<div>
-			<p className={"text-red-600"}>{error}</p>
+			<p
+				className={twMerge(
+					"opacity-0 text-red-600",
+					emptyTopicError && "opacity-100"
+				)}
+			>
+				Please enter a topic!
+			</p>
 			<div className="bg-gray-200 rounded-full custom-outline shadow-md flex flex-row">
 				<input
 					className="bg-transparent placeholder-gray-400 focus-within:placeholder-gray-700 outline-none mx-4 text-xl"

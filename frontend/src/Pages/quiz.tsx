@@ -2,11 +2,11 @@ import { useNavigate } from "react-router-dom";
 import ReturnToStart from "../Components/returnToStart";
 import { RootState, incrementIndex } from "../redux/index.ts";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { correctResponse, incorrectResponse } from "../helperFunctions.ts";
+import { ANSWER_TIMEOUT } from "../config.ts";
 
 export default function QuizPage() {
-	const answerTimeout = 2000;
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const questionIndex = useSelector(
@@ -14,8 +14,8 @@ export default function QuizPage() {
 	);
 	const questionData = useSelector((state: RootState) => state.question.data);
 	const score = useSelector((state: RootState) => state.user.score);
-
 	const [disableButtons, setDisableButtons] = useState(false);
+	const trueAnswerRef = useRef(null);
 
 	// Prevent users from going back to quiz after it is complete
 	useEffect(() => {
@@ -24,12 +24,12 @@ export default function QuizPage() {
 		}
 	}, [navigate, questionData.length, questionIndex]);
 
-	const handleButton = (buttonIndex: number, target: Element) => {
+	const handleButton = (target: Element) => {
 		setDisableButtons(true);
-		if (buttonIndex === questionData[questionIndex].correctAnswer) {
-			correctResponse(target, dispatch, answerTimeout);
+		if (trueAnswerRef.current === target) {
+			correctResponse(target, dispatch);
 		} else {
-			incorrectResponse(target, answerTimeout);
+			incorrectResponse(target, trueAnswerRef.current);
 		}
 		setTimeout(() => {
 			if (questionIndex === questionData.length - 1) {
@@ -37,7 +37,7 @@ export default function QuizPage() {
 			}
 			dispatch(incrementIndex());
 			setDisableButtons(false);
-		}, answerTimeout);
+		}, ANSWER_TIMEOUT);
 	};
 
 	return (
@@ -51,24 +51,38 @@ export default function QuizPage() {
 							": " +
 							questionData[questionIndex].question}
 					</h1>
-					<h2 className="absolute top-4 right-4 text-xl">Score: {score}</h2>
+					<h2 className="absolute top-4 right-4 text-xl">
+						Score: {score}
+					</h2>
 					<div className="flex flex-col justify-evenly items-center h-full gap-2">
 						{questionData[questionIndex] &&
-							questionData[questionIndex].answers.map((ans, i) => {
-								return (
-									<button
-										className="bg-gray-200 rounded-full w-3/4 py-4 hover-scale shadow-md"
-										key={i}
-										onClick={(e) => {
-											e.preventDefault();
-											handleButton(i, e.currentTarget as Element);
-										}}
-										disabled={disableButtons}
-									>
-										<p className="text-2xl mx-3">{ans}</p>
-									</button>
-								);
-							})}
+							questionData[questionIndex].answers.map(
+								(ans, i) => {
+									return (
+										<button
+											className="bg-gray-200 rounded-full w-3/4 py-4 hover-scale shadow-md"
+											key={i}
+											onClick={(e) => {
+												e.preventDefault();
+												handleButton(
+													e.currentTarget as Element
+												);
+											}}
+											disabled={disableButtons}
+											ref={
+												questionData[questionIndex]
+													.correctAnswer === i
+													? trueAnswerRef
+													: null
+											}
+										>
+											<p className="text-2xl mx-3">
+												{ans}
+											</p>
+										</button>
+									);
+								}
+							)}
 					</div>
 				</>
 			)}

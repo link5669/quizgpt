@@ -31,8 +31,14 @@ const store = configureStore({
 
 const persistor = persistStore(store);
 
-export const { incrementIndex, setQuestionData, newTopic } =
-	questionSlice.actions;
+export const {
+	incrementIndex,
+	resetIndex,
+	setQuestionData,
+	newTopic,
+	newNumQuestions,
+	newDifficulty,
+} = questionSlice.actions;
 export const { incrementScore, resetScore } = userSlice.actions;
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
