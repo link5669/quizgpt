@@ -1,25 +1,33 @@
 import { AnyAction, Dispatch } from "@reduxjs/toolkit";
-import { incrementScore, resetScore } from "./redux";
+import { incrementScore, resetScore, resetIndex } from "./redux";
 import { NavigateFunction } from "react-router-dom";
 import { FormEvent } from "react";
+import { AxiosError } from "axios";
+import {
+	ANSWER_TIMEOUT,
+	CORRECT_COLOR,
+	INCORRECT_COLOR,
+	TRUE_COLOR,
+} from "./config";
 
 export const correctResponse = (
 	element: Element,
-	dispatch: Dispatch<AnyAction>,
-	answerTimeout: number
+	dispatch: Dispatch<AnyAction>
 ) => {
-	element.classList.add("bg-green-500");
+	element.classList.add(CORRECT_COLOR);
 	dispatch(incrementScore());
 	setTimeout(() => {
-		element.classList.remove("bg-green-500");
-	}, answerTimeout);
+		element.classList.remove(CORRECT_COLOR);
+	}, ANSWER_TIMEOUT);
 };
 
-export const incorrectResponse = (element: Element, answerTimeout: number) => {
-	element.classList.add("bg-red-500");
+export const incorrectResponse = (element: Element, trueAnswer: Element) => {
+	element.classList.add(INCORRECT_COLOR);
+	trueAnswer.classList.add(TRUE_COLOR);
 	setTimeout(() => {
-		element.classList.remove("bg-red-500");
-	}, answerTimeout);
+		element.classList.remove(INCORRECT_COLOR);
+		trueAnswer.classList.remove(TRUE_COLOR);
+	}, ANSWER_TIMEOUT);
 };
 
 export const handlePlayAgain = (
@@ -27,6 +35,7 @@ export const handlePlayAgain = (
 	navigate: NavigateFunction
 ) => {
 	dispatch(resetScore());
+	dispatch(resetIndex());
 	navigate("/loading");
 };
 
@@ -44,4 +53,37 @@ export const iconButtonSubmitHandler = (
 ) => {
 	e.preventDefault();
 	action ? action(e) : null;
+};
+
+export const getErrorMessage = (err: AxiosError) => {
+	let status = "";
+	if (err.response) {
+		// The client was given an error response (5xx, 4xx)
+		switch (err.response.status) {
+			case 400:
+				status = "Bad Request";
+				break;
+			case 401:
+				status = "Unauthorized (No Auth Provided)";
+				break;
+			case 403:
+				status = "Forbidden";
+				break;
+			case 404:
+				status = "Not Found";
+				break;
+			case 500:
+				status = "Internal Server Error";
+				break;
+			default:
+				status = "Unhandled Error";
+		}
+		status = "(" + err.response.status + ") " + status;
+	} else if (err.request) {
+		// The client never received a response, and the request was never left
+		status = "Error accessing backend API";
+	} else {
+		status = "Unknown Error";
+	}
+	return status;
 };

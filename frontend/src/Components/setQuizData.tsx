@@ -3,14 +3,16 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { updateQuizData, resetScore } from "../redux";
 import { MyQuiz } from "../../types/shared";
+import { DEFAULT_DIFFICULTY } from "../config";
 
 export default function SetQuizData() {
   const [quizData, setQuizData] = useState<MyQuiz>({
     numQuestions: 0,
-    difficulty: "",
+    difficulty: DEFAULT_DIFFICULTY,
     topic: "",
   });
   const [error, setError] = useState("");
+  const [dropdownWidth, setDropdownWidth] = useState(6);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
