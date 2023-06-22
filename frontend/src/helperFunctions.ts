@@ -2,7 +2,7 @@ import { AnyAction, Dispatch } from "@reduxjs/toolkit";
 import { incrementScore, resetScore, resetIndex } from "./redux";
 import { NavigateFunction } from "react-router-dom";
 import { FormEvent } from "react";
-import { AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 import {
 	ANSWER_TIMEOUT,
 	CORRECT_COLOR,
@@ -54,6 +54,23 @@ export const iconButtonSubmitHandler = (
 	e.preventDefault();
 	action ? action(e) : null;
 };
+
+function formatRecievedScores(scores) {
+	const scoresCollection = scores.data
+	var scoresArr = []
+	for (var e in scoresCollection) {
+		scoresArr.push(scoresCollection[e])
+	}
+	return scoresArr
+}
+
+export const getScores = async () => {
+	return axios
+		.get(`/api/scores`)
+	.then(response => {
+		return formatRecievedScores(response)
+	})
+}
 
 export const getErrorMessage = (err: AxiosError) => {
 	let status = "";
