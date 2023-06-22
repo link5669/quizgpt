@@ -22,8 +22,8 @@ export default function Loading() {
 						topic: topic,
 						numQuestions: numQuestions,
 						difficulty: difficulty,
-					}
-					// headers: { Authorization: `Bearer ${process.env.BACKENDACCESSTOKEN}` }
+					},
+					headers: { Authorization: `Bearer ${import.meta.env.VITE_API_KEY}` }
 				})
 				.then((response) => {
 					dispatch(setQuestionData(response.data));
