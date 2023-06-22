@@ -24,7 +24,7 @@ export default function Loading() {
 						difficulty: questionState.difficulty,
 					},
 					headers: {
-						Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
+						Authorization: `Bearer ${import.meta.env.VITE_API_KEY || process.env.VITE_API_KEY || import.meta.env.REACT_APP_API_KEY || process.env.REACT_APP_API_KEY || }`,
 					},
 				})
 				.then((response) => {
