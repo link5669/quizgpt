@@ -5,10 +5,22 @@ import { DEFAULT_DIFFICULTY } from "../config";
 
 const EnterDifficulty = () => {
 	const [difficulty, setDifficulty] = useState(DEFAULT_DIFFICULTY);
+	const [dropdownWidth, setDropdownWidth] = useState(6);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
 		dispatch(newDifficulty(difficulty));
+		switch (difficulty) {
+			case "easy":
+			case "hard":
+				setDropdownWidth(4.2);
+				break;
+			case "medium":
+				setDropdownWidth(6);
+				break;
+			default:
+				setDropdownWidth(9);
+		}
 	}, [difficulty, dispatch]);
 
 	const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -19,14 +31,15 @@ const EnterDifficulty = () => {
 		<div className="flex flex-row bg-gray-200 rounded-full custom-outline shadow-md px-10 py-1 text-gray-500">
 			<p>Select Difficulty: </p>
 			<select
-				className="bg-transparent outline-none text-left pl-5"
+				className={`bg-transparent outline-none text-right pl-2 cursor-pointer`}
+				style={{ width: `${dropdownWidth}em` }}
 				value={difficulty}
 				onChange={handleChange}
-				placeholder="select difficulty"
 			>
 				<option value="easy">easy</option>
 				<option value="medium">medium</option>
 				<option value="hard">hard</option>
+				<option value="extremely hard">extremely hard</option>
 			</select>
 		</div>
 	);
