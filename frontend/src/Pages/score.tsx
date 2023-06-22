@@ -1,10 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux";
-import { handlePlayAgain } from "../helperFunctions";
+import { handlePlayAgain, getScores } from "../helperFunctions";
 import axios from "axios";
-import { useState } from "react";
-import { FormEvent } from "react";
+import { useEffect, useState } from "react";
+import { Score } from "../../types/shared";
 
 export default function ScorePage() {
 	const dispatch = useDispatch();
@@ -14,19 +14,27 @@ export default function ScorePage() {
 		(state: RootState) => state.question.data.length
 	);
 	const score = useSelector((state: RootState) => state.user.score);
-	const [name, setName] = useState("")
+	const [username, setUsername] = useState("");
+	const [scores, setScores] = useState<Score[]>([]);
+	/**
+	 * scores has an array of scores fetched from Firebase, fetched on page load
+	 * scores is an array with a series of objects in the format
+	 * {score: int, topic: string, username: string}
+	 */
 
 	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault();
 		const postScore = async () => {
 			await axios
-				.post(`/api/scores?
-						username=${name}
+				.post(
+					`/api/scores?
+						username=${username}
 						&topic=${topic}
-						&score=${score}`)
-			.then(response => console.log(response))
-		}	
-		postScore()
+						&score=${score}`
+				)
+				.then((response) => console.log(response));
+		};
+		postScore();
 	};
 
 	return (
