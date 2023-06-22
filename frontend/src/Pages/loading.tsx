@@ -24,9 +24,7 @@ export default function Loading() {
 						difficulty: questionState.difficulty,
 					},
 					headers: {
-						Authorization: `Bearer ${
-							import.meta.env.VITE_BACKEND_ACCESS_TOKEN
-						}`,
+						Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
 					},
 				})
 				.then((response) => {
