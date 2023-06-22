@@ -28,8 +28,8 @@ export default function QuizPage() {
 		setDisableButtons(true);
 		if (trueAnswerRef.current === target) {
 			correctResponse(target, dispatch);
-		} else {
-			incorrectResponse(target, trueAnswerRef.current);
+		} else if (trueAnswerRef.current !== null) {
+			incorrectResponse(target, trueAnswerRef.current as Element);
 		}
 		setTimeout(() => {
 			if (questionIndex === questionData.length - 1) {
