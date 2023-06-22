@@ -14,6 +14,8 @@ export default function Loading() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
+	const controller = new AbortController();
+
 	useEffect(() => {
 		const fetchQuestions = async () => {
 			await axios
@@ -22,7 +24,9 @@ export default function Loading() {
 						topic: questionState.topic,
 						numQuestions: questionState.numQuestions,
 						difficulty: questionState.difficulty,
-					}
+					},
+
+					signal: controller.signal,
 				})
 				.then((response) => {
 					dispatch(setQuestionData(response.data));
@@ -31,12 +35,13 @@ export default function Loading() {
 				.catch((err) => {
 					const errorMessage = getErrorMessage(err);
 					navigate("/", {
-						state: errorMessage,
+						state: controller.signal.aborted ? "" : errorMessage,
 					});
 				});
 		};
 		fetchQuestions();
 	}, [
+		controller.signal,
 		dispatch,
 		navigate,
 		questionState.difficulty,
@@ -46,7 +51,11 @@ export default function Loading() {
 
 	return (
 		<>
-			<ReturnToStart />
+			<ReturnToStart
+				sideEffect={() => {
+					controller.abort();
+				}}
+			/>
 			<BsFillLightbulbFill className="absolute-center text-[120px] animate-pulse" />
 			<h1 className="absolute left-[50%] -translate-x-[50%] bottom-10 text-3xl tracking-wide w-full text-center p-4">
 				Generating "{questionState.topic}" questions...
