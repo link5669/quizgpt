@@ -62,7 +62,11 @@ function formatRecievedScores(scores: any): Score[] {
 	for (var e in scoresCollection) {
 		scoresArr.push(scoresCollection[e])
 	}
-	return scoresArr
+	return sortScores(scoresArr)
+}
+
+function sortScores(scores: Score[]) {
+	return scores.sort((a,b) => b.score - a.score)
 }
 
 export const getScores = async () => {

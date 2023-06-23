@@ -17,11 +17,6 @@ export default function ScorePage() {
 	const score = useSelector((state: RootState) => state.user.score);
 	const [username, setUsername] = useState("");
 	const [scores, setScores] = useState<Score[]>([]);
-	/**
-	 * scores has an array of scores fetched from Firebase, fetched on page load
-	 * scores is an array with a series of objects in the format
-	 * {score: int, topic: string, username: string}
-	 */
 
 	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault();
@@ -33,7 +28,7 @@ export default function ScorePage() {
 						&topic=${topic}
 						&score=${score}`
 				)
-				.then((response) => console.log(response));
+				.then((response) => setScores([...scores, {username: username, topic: topic, score: score}]));
 		};
 		postScore();
 	};
@@ -42,7 +37,7 @@ export default function ScorePage() {
 		getScores().then((response) => {
 			setScores(response);
 		});
-	}, []);
+	}, [scores]);
 
 	return (
 		<div className="flex flex-col gap-3 h-full font-default items-center text-center py-5">
@@ -85,7 +80,6 @@ export default function ScorePage() {
 										<th>Username</th>
 									</tr>
 								</thead>
-								<br></br>
 								<tbody>
 									{scores.map((item, index) => {
 										return index < 4 ? (

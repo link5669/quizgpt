@@ -25,6 +25,8 @@ router.get("/", async (req, res) => {
         res.status(500).send("Error occurred while fetching data from the API");
       }
     }
+  } else {
+    res.status(502).send("Unauthorized")
   }
 }); 
 
