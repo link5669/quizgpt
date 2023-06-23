@@ -4,7 +4,7 @@ import { ImCross } from "react-icons/im";
 import { PropsWithChildren } from "react";
 
 interface Props {
-	sideEffect: () => void;
+	sideEffect?: () => void;
 }
 
 export default function ReturnToStart({
