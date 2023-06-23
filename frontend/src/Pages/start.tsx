@@ -13,6 +13,7 @@ export default function StartPage() {
 			window.history.replaceState({}, document.title);
 		}, ERROR_TIMEOUT);
 	}, [errorMessage]);
+
 	return (
 		<>
 			<Link to="/about">

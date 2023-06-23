@@ -4,7 +4,7 @@ import { QuizState } from "../../../types/shared";
 import { MyQuiz } from "../../../types/shared";
 import { DEFAULT_DIFFICULTY, DEFAULT_NUM_QUESTIONS } from "../../config";
 
-const initialState: QuizState = {
+export const initialQuizState: QuizState = {
 	quizData: {
 		numQuestions: DEFAULT_NUM_QUESTIONS,
 		difficulty: DEFAULT_DIFFICULTY,
@@ -16,7 +16,7 @@ const initialState: QuizState = {
 
 const questionSlice = createSlice({
 	name: "question",
-	initialState,
+	initialState: initialQuizState,
 	reducers: {
 		incrementIndex(state) {
 			state.currentQuestionIndex = state.currentQuestionIndex + 1;

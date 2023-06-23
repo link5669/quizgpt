@@ -1,17 +1,24 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import {
+	AnyAction,
+	Reducer,
+	combineReducers,
+	configureStore,
+} from "@reduxjs/toolkit";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import questionSlice from "./slices/questionSlice.ts";
 import userSlice from "./slices/userSlice.ts";
+import autoMergeLevel1 from "redux-persist/lib/stateReconciler/autoMergeLevel1";
 
 // Create a persist configuration object
 const persistConfig = {
 	key: "root",
 	storage,
 	version: 1,
+	stateReconciler: autoMergeLevel1,
 };
 
-const rootReducer = combineReducers({
+const rootReducer: Reducer<any, AnyAction> = combineReducers({
 	question: questionSlice.reducer,
 	user: userSlice.reducer,
 });
