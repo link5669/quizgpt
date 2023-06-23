@@ -4,18 +4,24 @@ import {
 	combineReducers,
 	configureStore,
 } from "@reduxjs/toolkit";
-import { persistReducer, persistStore } from "redux-persist";
+import { persistReducer, persistStore, createMigrate } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import questionSlice from "./slices/questionSlice.ts";
+import questionSlice, { questionMigration } from "./slices/questionSlice.ts";
 import userSlice from "./slices/userSlice.ts";
-import autoMergeLevel1 from "redux-persist/lib/stateReconciler/autoMergeLevel1";
+import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
+
+const migrations = {
+	0: questionMigration,
+};
 
 // Create a persist configuration object
 const persistConfig = {
 	key: "root",
 	storage,
-	version: 1,
-	stateReconciler: autoMergeLevel1,
+	version: 0,
+	debug: true,
+	stateReconciler: autoMergeLevel2,
+	migrate: createMigrate(migrations, { debug: true }),
 };
 
 const rootReducer: Reducer<any, AnyAction> = combineReducers({

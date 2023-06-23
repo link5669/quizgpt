@@ -3,6 +3,7 @@ import { QuestionData } from "../../../types/shared";
 import { QuizState } from "../../../types/shared";
 import { MyQuiz } from "../../../types/shared";
 import { DEFAULT_DIFFICULTY, DEFAULT_NUM_QUESTIONS } from "../../config";
+import { PersistedState } from "redux-persist/lib/types";
 
 export const initialQuizState: QuizState = {
 	quizData: {
@@ -34,5 +35,38 @@ const questionSlice = createSlice({
 		},
 	},
 });
+
+interface OldState {
+	topic: string;
+	currentQuestionIndex: number;
+	data: Array<{
+		question: string;
+		answers: string[];
+		correctAnswer: number;
+	}>;
+	numQuestions: number;
+	difficulty: string;
+}
+
+export const questionMigration = (state: PersistedState): PersistedState => {
+	if (!state) {
+		return state;
+	}
+
+	const oldState = state as unknown as OldState;
+
+	const newState = {
+		...oldState,
+		quizData: {
+			numQuestions: oldState.numQuestions,
+			difficulty: oldState.difficulty,
+			topic: oldState.topic,
+		},
+		currentQuestionIndex: 0,
+		data: [],
+	};
+
+	return newState as unknown as PersistedState;
+};
 
 export default questionSlice;
