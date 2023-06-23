@@ -72,7 +72,7 @@ export default function SetQuizData() {
 					</p>
 					<div className="bg-gray-200 rounded-full custom-outline shadow-md flex flex-row">
 						<input
-							className="bg-transparent w-full text-gray-700 placeholder-gray-500 focus-within:placeholder-gray-700 outline-none py-5 mx-4 pl-5 text-xl"
+							className="bg-transparent w-full text-gray-700 placeholder-gray-400 focus-within:placeholder-gray-700 outline-none py-5 mx-4 pl-5 text-xl"
 							type="text"
 							name="topic"
 							value={quizData.topic}

@@ -5,7 +5,7 @@ export default function StartPage() {
 	return (
 		<>
 			<Link to="/about">
-				<button className="rounded-full bg-gray-200 text-gray-700 hover-scale py-1 px-3 fixed top-5 right-5">
+				<button className="rounded-full bg-gray-200 text-gray-700 hover-scale py-1 px-3 absolute top-5 right-5 custom-outline">
 					about quizify
 				</button>
 			</Link>
