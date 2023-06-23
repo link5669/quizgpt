@@ -58,26 +58,29 @@ export default function QuizPage() {
 			</h1>
 			<h2 className="absolute top-4 right-4 text-xl">Score: {score}</h2>
 			<div className="flex flex-col justify-evenly items-center h-full gap-2">
-				{questionData[questionIndex].answers.map((ans, i) => {
-					return (
-						<button
-							className="bg-gray-200 rounded-full w-3/4 py-4 hover-scale shadow-md"
-							key={i}
-							onClick={(e) => {
-								e.preventDefault();
-								handleButton(e.currentTarget as Element);
-							}}
-							disabled={disableButtons}
-							ref={
-								questionData[questionIndex].correctAnswer === i
-									? trueAnswerRef
-									: null
-							}
-						>
-							<p className="text-2xl mx-3">{ans}</p>
-						</button>
-					);
-				})}
+				{questionData[questionIndex].answers.map(
+					(ans: string, i: number) => {
+						return (
+							<button
+								className="bg-gray-200 rounded-full w-3/4 py-4 hover-scale shadow-md"
+								key={i}
+								onClick={(e) => {
+									e.preventDefault();
+									handleButton(e.currentTarget as Element);
+								}}
+								disabled={disableButtons}
+								ref={
+									questionData[questionIndex]
+										.correctAnswer === i
+										? trueAnswerRef
+										: null
+								}
+							>
+								<p className="text-2xl mx-3">{ans}</p>
+							</button>
+						);
+					}
+				)}
 			</div>
 		</div>
 	);
