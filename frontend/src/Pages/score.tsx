@@ -45,39 +45,40 @@ export default function ScorePage() {
 	return (
 		<div className="flex flex-col gap-3 h-full font-default items-center text-center py-5">
 			{/* quiz topic block */}
-			<div className="flex flex-row gap-10 flex-wrap basis-1/2">
+			<div className="flex flex-row gap-24 flex-wrap basis-1/2">
 				<div className="flex flex-col">
 					<h1 className="text-2xl text-gray-600 mx-8 pb-3">
 						Quiz Topic:
 					</h1>
 					<div className="outline outline-gray-500 outline-4 py-3 px-16 sm:px-32 rounded-2xl">
-						<h2 className="text-center text-4xl">{topic}</h2>
+						<h2 className="text-center text-3xl">{topic}</h2>
 					</div>
 				</div>
 				{/* final score block */}
 				<div className="flex flex-col">
-					<h1 className="text-2xl text-gray-800 mx-8 pb-3">
+					<h1 className="text-2xl text-gray-600 mx-8 pb-3">
 						Final Score:
 					</h1>
 					<div className="outline outline-gray-500 outline-4 py-3 px-16 sm:px-32 rounded-2xl">
-						<h2 className="text-center text-4xl">
+						<h2 className="text-center text-3xl">
 							{score + "/" + totalQuestions}
 						</h2>
 					</div>
 				</div>
 			</div>
 			<div className="flex flex-col">
-				<h1 className="text-2xl text-gray-600 mx-8 pb-5">
+				<h1 className="text-3xl text-gray-200 py-3 bg-gray-500 rounded-2xl">
 					Leaderboard:
 				</h1>
-				<div className="outline outline-gray-500 outline-4 py-6 px-32 sm:px-32 rounded-2xl">
+				<div className="outline outline-gray-500 outline-4 rounded-2xl">
 					<h2 className="text-center text-4xl">
 						{scores.length === 0 ? (
 							<p>Loading...</p>
 						) : (
-							<table>
-								<thead>
+							<table className = "table-auto text-2xl border-separate border-spacing-x-16 border-spacing-y-3">
+								<thead className = "">
 									<tr>
+										<th>Rank</th>
 										<th>Score</th>
 										<th>Topic</th>
 										<th>Username</th>
@@ -87,6 +88,7 @@ export default function ScorePage() {
 									{scores.map((item, index) => {
 										return index < 4 ? (
 											<tr key={index}>
+												<td>{index+1}</td>
 												<td>{item.score}</td>
 												<td>{item.topic}</td>
 												<td>{item.username}</td>
@@ -99,33 +101,34 @@ export default function ScorePage() {
 					</h2>
 				</div>
 			</div>
-			<form className="flex flex-row gap-3 items-center">
-				<label className="text-2xl text-gray-600 mx-8 pb-3">
-					Enter your name:
-				</label>
+			<form className="flex flex-row gap-10 items-center">
+				<p className="text-xl">
+					Join the leaderboard:
+				</p>
 				<input
 					type="text"
 					onChange={(e) => setUsername(e.target.value)}
-					className="outline outline-gray-500 outline-4 py-3 px-16 sm:px-32 rounded-2xl"
+					className=" custom-outline shadow-md text-xl py-2 px-5 mx-4 rounded-2xl"
+					placeholder="enter your name"
 					required
 				/>
 				<button
 					type="submit"
 					onClick={handleSubmit}
-					className="bg-gray-200 rounded-full hover-scale shadow-md py-5 px-5 sm:px-10"
+					className="bg-gray-200 text-xl rounded-full hover-scale shadow-md py-3 px-6"
 				>
-					Submit to leaderboard
+					Submit
 				</button>
 			</form>
 			<div className="flex flex-row py-5 px-2 gap-3 justify-evenly w-full">
 				<button
 					onClick={() => handlePlayAgain(dispatch, navigate)}
-					className="bg-gray-200 rounded-full hover-scale shadow-md py-5 px-5 sm:px-10"
+					className="bg-gray-200 rounded-full hover-scale shadow-md py-3 px-5 sm:px-10"
 				>
 					<p className="text-lg">Regenerate Questions</p>
 				</button>
 				<Link to="/">
-					<button className="bg-gray-200 rounded-full hover-scale shadow-md py-5 px-5 sm:px-10">
+					<button className="bg-gray-200 rounded-full hover-scale shadow-md py-3 px-5 sm:px-10">
 						<p className="text-lg">Select New Topic</p>
 					</button>
 				</Link>

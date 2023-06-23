@@ -7,7 +7,7 @@ import ScorePage from "./Pages/score";
 
 export default function App() {
 	return (
-		<div className="bg-gray-100">
+		<div className="w-screen h-screen bg-gray-100">
 			<Routes>
 				<Route path="/quiz" element={<QuizPage />} />
 				<Route path="/about" element={<AboutPage />} />
