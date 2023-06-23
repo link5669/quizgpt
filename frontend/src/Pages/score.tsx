@@ -28,7 +28,10 @@ export default function ScorePage() {
 						&topic=${topic}
 						&score=${score}`
 				)
-				.then((response) => setScores([...scores, {username: username, topic: topic, score: score}]));
+				.then((response) => {
+					const newScore: Score = {username: username, topic: topic, score: score}
+					setScores([...scores, newScore])
+				});
 		};
 		postScore();
 	};
