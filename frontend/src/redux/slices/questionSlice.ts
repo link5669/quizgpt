@@ -44,6 +44,11 @@ interface OldState {
 		answers: string[];
 		correctAnswer: number;
 	}>;
+	quizData: {
+		numQuestions: number;
+		difficulty: string;
+		topic: string;
+	};
 	numQuestions: number;
 	difficulty: string;
 }
@@ -56,7 +61,6 @@ export const questionMigration = (state: PersistedState): PersistedState => {
 	const oldState = state as unknown as OldState;
 
 	const newState = {
-		...oldState,
 		quizData: {
 			numQuestions: oldState.numQuestions,
 			difficulty: oldState.difficulty,

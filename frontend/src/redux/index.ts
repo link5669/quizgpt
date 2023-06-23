@@ -18,7 +18,7 @@ const migrations = {
 const persistConfig = {
 	key: "root",
 	storage,
-	version: 0,
+	version: 1,
 	debug: true,
 	stateReconciler: autoMergeLevel2,
 	migrate: createMigrate(migrations, { debug: true }),
