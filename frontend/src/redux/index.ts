@@ -8,6 +8,7 @@ import userSlice from "./slices/userSlice.ts";
 const persistConfig = {
 	key: "root",
 	storage,
+	version: 1,
 };
 
 const rootReducer = combineReducers({
