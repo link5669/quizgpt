@@ -1,13 +1,28 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { IconButton } from "./iconButton";
 import { ImCross } from "react-icons/im";
+import { PropsWithChildren } from "react";
 
-export default function ReturnToStart() {
+interface Props {
+	sideEffect: () => void;
+}
+
+export default function ReturnToStart({
+	sideEffect,
+}: PropsWithChildren<Props>) {
+	const navigate = useNavigate();
+
+	const action = () => {
+		sideEffect ? sideEffect() : null;
+		navigate("/");
+	};
+
 	return (
-		<Link to="/" className="absolute top-4 left-4 text-xl hover-scale">
-			<IconButton>
-				<ImCross />
-			</IconButton>
-		</Link>
+		<IconButton
+			className="absolute top-4 left-4 text-xl hover-scale"
+			action={action}
+		>
+			<ImCross />
+		</IconButton>
 	);
 }

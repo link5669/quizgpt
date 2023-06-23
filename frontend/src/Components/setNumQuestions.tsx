@@ -31,7 +31,7 @@ const EnterNumQuestions = () => {
 		<div className="flex flex-row bg-gray-200 rounded-full custom-outline shadow-md px-8 py-1 text-gray-500">
 			<p>Select # of Questions: </p>
 			<select
-				className="bg-transparent text-lg pl-5 outline-none"
+				className="bg-transparent text-lg pl-5 outline-none cursor-pointer"
 				value={numQuestions}
 				onChange={handleChange}
 			>

@@ -6,40 +6,37 @@ import userSlice from "./slices/userSlice.ts";
 
 // Create a persist configuration object
 const persistConfig = {
-	key: "root",
-	storage,
+  key: "root",
+  storage,
 };
 
 const rootReducer = combineReducers({
-	question: questionSlice.reducer,
-	user: userSlice.reducer,
+  question: questionSlice.reducer,
+  user: userSlice.reducer,
 });
 
 // Wrap your rootReducer with the persistReducer
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({
-	reducer: persistedReducer,
-	middleware: (getDefaultMiddleware) =>
-		getDefaultMiddleware({
-			serializableCheck: {
-				// Ignore the non-serializable values in the `persist/PERSIST` action
-				ignoredActions: ["persist/PERSIST"],
-			},
-		}),
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        // Ignore the non-serializable values in the `persist/PERSIST` action
+        ignoredActions: ["persist/PERSIST"],
+      },
+    }),
 });
 
 const persistor = persistStore(store);
 
 export const {
-	incrementIndex,
-	resetIndex,
-	setQuestionData,
-	newTopic,
-	newNumQuestions,
-	newDifficulty,
+  incrementIndex,
+  setQuestionData,
+  updateQuizData,
 } = questionSlice.actions;
-export const { incrementScore, resetScore } = userSlice.actions;
+export const { incrementScore, resetScore, resetIndex } = userSlice.actions;
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 export { store, persistor };
