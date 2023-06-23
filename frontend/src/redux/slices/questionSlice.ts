@@ -62,9 +62,9 @@ export const questionMigration = (state: PersistedState): PersistedState => {
 
 	const newState = {
 		quizData: {
-			numQuestions: oldState.numQuestions,
-			difficulty: oldState.difficulty,
-			topic: oldState.topic,
+			numQuestions: oldState.quizData.numQuestions,
+			difficulty: oldState.quizData.difficulty,
+			topic: oldState.quizData.topic,
 		},
 		currentQuestionIndex: 0,
 		data: [],
