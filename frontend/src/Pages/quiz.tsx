@@ -19,10 +19,13 @@ export default function QuizPage() {
 
 	// Prevent users from going back to quiz after it is complete
 	useEffect(() => {
-		if (questionIndex >= questionData.length) {
+		if (
+			questionIndex >= questionData.length ||
+			questionData[questionIndex] === undefined
+		) {
 			navigate("/score");
 		}
-	}, [navigate, questionData.length, questionIndex]);
+	}, [navigate, questionData, questionData.length, questionIndex]);
 
 	const handleButton = (target: Element) => {
 		setDisableButtons(true);
@@ -40,7 +43,9 @@ export default function QuizPage() {
 		}, ANSWER_TIMEOUT);
 	};
 
-	// TODO: protect against no data
+	if (questionData[questionIndex] === undefined) {
+		return <></>;
+	}
 
 	return (
 		<div className="flex flex-col gap-3 h-full font-default text-center py-12">

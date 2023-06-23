@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux";
 import { handlePlayAgain } from "../helperFunctions";
+import { useEffect } from "react";
 
 export default function ScorePage() {
 	const dispatch = useDispatch();
@@ -13,6 +14,12 @@ export default function ScorePage() {
 		(state: RootState) => state.question.data.length
 	);
 	const score = useSelector((state: RootState) => state.user.score);
+
+	useEffect(() => {
+		if (topic.length === 0) {
+			navigate("/", { state: "Please Enter a Topic" });
+		}
+	});
 
 	return (
 		<div className="flex flex-col gap-3 h-full font-default items-center text-center py-5">

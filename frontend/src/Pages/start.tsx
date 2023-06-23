@@ -1,7 +1,18 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import SetQuizData from "../Components/setQuizData";
+import { useEffect } from "react";
+import { ERROR_TIMEOUT } from "../config";
+import ErrorModal from "../Components/errorModal";
 
 export default function StartPage() {
+	const location = useLocation();
+	const errorMessage = location.state;
+	useEffect(() => {
+		setTimeout(() => {
+			// Clears error message on page reload
+			window.history.replaceState({}, document.title);
+		}, ERROR_TIMEOUT);
+	}, [errorMessage]);
 	return (
 		<>
 			<Link to="/about">
@@ -20,6 +31,7 @@ export default function StartPage() {
 				</div>
 				<SetQuizData />
 			</div>
+			<ErrorModal message={errorMessage} />
 		</>
 	);
 }
