@@ -3,13 +3,13 @@ import { QuestionData } from "../../../types/shared";
 import { QuizState } from "../../../types/shared";
 import { MyQuiz } from "../../../types/shared";
 import { DEFAULT_DIFFICULTY, DEFAULT_NUM_QUESTIONS } from "../../config";
-import { PersistedState } from "redux-persist/lib/types";
 
 export const initialQuizState: QuizState = {
 	quizData: {
 		numQuestions: DEFAULT_NUM_QUESTIONS,
 		difficulty: DEFAULT_DIFFICULTY,
 		topic: "",
+		gpt4: false,
 	},
 	currentQuestionIndex: 0,
 	data: [],
@@ -29,48 +29,13 @@ const questionSlice = createSlice({
 			state.data = action.payload;
 		},
 		updateQuizData(state, action: PayloadAction<MyQuiz>) {
+			state.currentQuestionIndex = 0;
 			state.quizData.numQuestions = action.payload.numQuestions;
 			state.quizData.difficulty = action.payload.difficulty;
 			state.quizData.topic = action.payload.topic;
+			state.quizData.gpt4 = action.payload.gpt4;
 		},
 	},
 });
-
-interface OldState {
-	topic: string;
-	currentQuestionIndex: number;
-	data: Array<{
-		question: string;
-		answers: string[];
-		correctAnswer: number;
-	}>;
-	quizData: {
-		numQuestions: number;
-		difficulty: string;
-		topic: string;
-	};
-	numQuestions: number;
-	difficulty: string;
-}
-
-export const questionMigration = (state: PersistedState): PersistedState => {
-	if (!state) {
-		return state;
-	}
-
-	const oldState = state as unknown as OldState;
-
-	const newState = {
-		quizData: {
-			numQuestions: oldState.quizData.numQuestions,
-			difficulty: oldState.quizData.difficulty,
-			topic: oldState.quizData.topic,
-		},
-		currentQuestionIndex: 0,
-		data: [],
-	};
-
-	return newState as unknown as PersistedState;
-};
 
 export default questionSlice;

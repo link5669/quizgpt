@@ -1,17 +1,13 @@
 import { useState, FormEvent, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { updateQuizData, resetScore, resetIndex } from "../redux";
+import { updateQuizData, resetScore } from "../redux";
 import { MyQuiz } from "../../types/shared";
-import { DEFAULT_DIFFICULTY, DEFAULT_NUM_QUESTIONS } from "../config";
 import { twMerge } from "tailwind-merge";
+import { initialQuizState } from "../redux/slices/questionSlice";
 
 export default function SetQuizData() {
-	const [quizData, setQuizData] = useState<MyQuiz>({
-		numQuestions: DEFAULT_NUM_QUESTIONS,
-		difficulty: DEFAULT_DIFFICULTY,
-		topic: "",
-	});
+	const [quizData, setQuizData] = useState<MyQuiz>(initialQuizState.quizData);
 	const [emptyTopicError, setEmptyTopicError] = useState(false);
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
@@ -46,7 +42,6 @@ export default function SetQuizData() {
 
 		if (quizData.topic.length > 0) {
 			dispatch(updateQuizData(quizData));
-			dispatch(resetIndex());
 			dispatch(resetScore());
 			navigate("/loading");
 		} else {
@@ -77,16 +72,18 @@ export default function SetQuizData() {
 							name="topic"
 							value={quizData.topic}
 							onChange={handleInputChange}
-							onKeyDown={(e) => {
-								if (e.key !== "Enter") return;
-								handleSubmit(e);
-							}}
+							// onKeyDown={(e) => {
+							// 	if (e.key !== "Enter") return;
+							// 	handleSubmit(e);
+							// }}
 							placeholder="enter a topic"
 						></input>
 					</div>
 				</div>
 				<div className="flex flex-row rounded-full custom-outline shadow-md bg-gray-200 px-8 py-2">
-					<p className="pr-3">Select Difficulty: </p>
+					<label className="pr-3" htmlFor="difficulty">
+						Select Difficulty:
+					</label>
 					<select
 						className="bg-gray-300 rounded drop-shadow-sm text-left ml-5 pl-2 outline-none"
 						value={quizData.difficulty}
@@ -101,7 +98,9 @@ export default function SetQuizData() {
 				</div>
 
 				<div className="flex flex-row rounded-full custom-outline bg-gray-200 shadow-md px-8 py-2">
-					<p className="pr-2">Select # of Questions:</p>
+					<label className="pr-2" htmlFor="numQuestions">
+						Select # of Questions:
+					</label>
 					<select
 						className="bg-gray-300 drop-shadow-md rounded pl-2 ml-3 outline-none"
 						value={quizData.numQuestions}
@@ -111,13 +110,24 @@ export default function SetQuizData() {
 						{numOptions()}
 					</select>
 				</div>
+				<div className="flex flex-row justify-between">
+					<div className="flex flex-row items-center gap-2 rounded-full bg-gray-200 py-1 px-6 custom-outline shadow-md">
+						<input
+							type="checkbox"
+							name="gpt4"
+							className="outline-none"
+							onChange={handleInputChange}
+						/>
+						<label htmlFor="gpt4">Use GPT-4</label>
+					</div>
+					<button
+						onClick={handleSubmit}
+						className="rounded-full bg-gray-200 hover-scale py-1 px-6 custom-outline shadow-md"
+					>
+						Start Quiz
+					</button>
+				</div>
 			</form>
-			<button
-				onClick={handleSubmit}
-				className="rounded-full bg-gray-200 hover-scale py-1 px-6 custom-outline"
-			>
-				Start Quiz
-			</button>
 		</div>
 	);
 }

@@ -25,7 +25,6 @@ export default function Loading() {
 						numQuestions: quizData.numQuestions,
 						difficulty: quizData.difficulty,
 					},
-
 					signal: controller.signal,
 				})
 				.then((response) => {
