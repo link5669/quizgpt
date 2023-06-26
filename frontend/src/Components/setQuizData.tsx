@@ -1,13 +1,15 @@
 import { useState, FormEvent, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { updateQuizData, resetScore } from "../redux";
+import { useDispatch, useSelector } from "react-redux";
+import { updateQuizData, resetScore, RootState } from "../redux";
 import { MyQuiz } from "../../types/shared";
 import { twMerge } from "tailwind-merge";
-import { initialQuizState } from "../redux/slices/questionSlice";
 
 export default function SetQuizData() {
-	const [quizData, setQuizData] = useState<MyQuiz>(initialQuizState.quizData);
+	const reduxQuizData: MyQuiz = useSelector(
+		(state: RootState) => state.question.quizData
+	);
+	const [quizData, setQuizData] = useState<MyQuiz>(reduxQuizData);
 	const [emptyTopicError, setEmptyTopicError] = useState(false);
 	const navigate = useNavigate();
 	const dispatch = useDispatch();

@@ -6,6 +6,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Score } from "../../types/shared";
 import { FormEvent } from "react";
+import Leaderboard from "../Components/leaderboard";
 
 export default function ScorePage() {
 	const dispatch = useDispatch();
@@ -13,8 +14,9 @@ export default function ScorePage() {
 	const topic = useSelector(
 		(state: RootState) => state.question.quizData.topic
 	);
-	const totalQuestions = useSelector(
-		(state: RootState) => state.question.data.length
+	const quizData = useSelector((state: RootState) => state.question.data);
+	const quizIndex = useSelector(
+		(state: RootState) => state.question.currentQuestionIndex
 	);
 	const score = useSelector((state: RootState) => state.user.score);
 	const [username, setUsername] = useState("");
@@ -31,13 +33,24 @@ export default function ScorePage() {
 						&score=${score}`
 				)
 				.then((response) => {
-					console.log(response)
-					const newScore: Score = {username: username, topic: topic, score: score}
-					setScores([...scores, newScore])
+					console.log(response);
+					const newScore: Score = {
+						username: username,
+						topic: topic,
+						score: score,
+					};
+					setScores([...scores, newScore]);
 				});
 		};
 		postScore();
 	};
+
+	// Prevent users from going to the score screen before the quiz is complete
+	useEffect(() => {
+		if (quizIndex >= quizData.length || quizData[quizIndex] === undefined) {
+			navigate("/quiz");
+		}
+	}, [navigate, quizData, quizIndex]);
 
 	useEffect(() => {
 		getScores().then((response) => {
@@ -70,54 +83,18 @@ export default function ScorePage() {
 					</h1>
 					<div className="outline outline-gray-500 outline-4 py-3 px-16 sm:px-32 rounded-2xl">
 						<h2 className="text-center text-3xl">
-							{score + "/" + totalQuestions}
+							{score + "/" + quizData.length}
 						</h2>
 					</div>
 				</div>
 			</div>
-			<div className="flex flex-col">
-				<h1 className="text-3xl text-gray-200 py-3 bg-gray-500 rounded-2xl">
-					Leaderboard:
-				</h1>
-				<div className="outline outline-gray-500 outline-4 rounded-2xl">
-					<h2 className="text-center text-4xl">
-						{scores.length === 0 ? (
-							<p>Loading...</p>
-						) : (
-							<table className = "table-auto text-2xl border-separate border-spacing-x-16 border-spacing-y-3">
-								<thead className = "">
-									<tr>
-										<th>Rank</th>
-										<th>Score</th>
-										<th>Topic</th>
-										<th>Username</th>
-									</tr>
-								</thead>
-								<tbody>
-									{scores.map((item, index) => {
-										return index < 4 ? (
-											<tr key={index}>
-												<td>{index+1}</td>
-												<td>{item.score}</td>
-												<td>{item.topic}</td>
-												<td>{item.username}</td>
-											</tr>
-										) : null;
-									})}
-								</tbody>
-							</table>
-						)}
-					</h2>
-				</div>
-			</div>
+			<Leaderboard scores={scores} />
 			<form className="flex flex-row gap-10 items-center">
-				<p className="text-xl">
-					Join the leaderboard:
-				</p>
+				<p className="text-xl">Join the leaderboard:</p>
 				<input
 					type="text"
 					onChange={(e) => setUsername(e.target.value)}
-					className=" custom-outline shadow-md text-xl py-2 px-5 mx-4 rounded-2xl"
+					className=" custom-outline shadow-md text-xl py-2 px-5 mx-4 rounded-full focus-within:placeholder-gray-700"
 					placeholder="enter your name"
 					required
 				/>
