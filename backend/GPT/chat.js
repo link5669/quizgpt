@@ -34,6 +34,7 @@ const getGPTData = async (topic, numQuestions, difficulty, modelType) => {
       model: modelType
     },
   };
+  console.log(data)
   return axios
     .post("https://api.psnext.info/api/chat", data, { headers })
     .then((response) => {

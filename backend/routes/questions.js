@@ -19,7 +19,14 @@ router.get("/", async (req, res) => {
     } else {
       try {
         const { topic, numQuestions, difficulty, useGPT4 } = req.query;
-        const modelType = useGPT4 ? "gpt4" : "gpt35turbo"
+        console.log(useGPT4)
+        let modelType = ""
+        if (useGPT4 == true) {
+          modelType = 'gpt4'
+        } else {
+          modelType = 'gpt35turbo'
+        }
+        console.log(modelType)
         const questions = await fetchQuestions(topic, numQuestions, difficulty, modelType);
         res.json(JSON.parse(questions));
       } catch {
