@@ -4,12 +4,17 @@ export interface QuestionData {
 	correctAnswer: number;
 }
 
-export interface QuizState {
-	currentQuestionIndex: number;
+export interface MyQuiz {
 	numQuestions: number;
 	difficulty: string;
 	topic: string;
-	data: QuestionData[]
+	gpt4: boolean;
+}
+
+export interface QuizState {
+	quizData: MyQuiz;
+	currentQuestionIndex: number;
+	data: QuestionData[];
 }
 
 export interface UserData {

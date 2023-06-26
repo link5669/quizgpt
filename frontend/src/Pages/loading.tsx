@@ -9,20 +9,24 @@ import { useNavigate } from "react-router-dom";
 import { getErrorMessage } from "../helperFunctions";
 
 export default function Loading() {
-	const questionState = useSelector((state: RootState) => state.question);
+	const quizData = useSelector((state: RootState) => state.question.quizData);
 
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+
+	const controller = new AbortController();
 
 	useEffect(() => {
 		const fetchQuestions = async () => {
 			await axios
 				.get<QuestionData[]>("/api/questions", {
 					params: {
-						topic: questionState.topic,
-						numQuestions: questionState.numQuestions,
-						difficulty: questionState.difficulty,
-					}
+						topic: quizData.topic,
+						numQuestions: quizData.numQuestions,
+						difficulty: quizData.difficulty,
+						useGPT4: quizData.useGPT4 ? true : false
+					},
+					signal: controller.signal,
 				})
 				.then((response) => {
 					dispatch(setQuestionData(response.data));
@@ -31,25 +35,30 @@ export default function Loading() {
 				.catch((err) => {
 					const errorMessage = getErrorMessage(err);
 					navigate("/", {
-						state: errorMessage,
+						state: controller.signal.aborted ? "" : errorMessage,
 					});
 				});
 		};
 		fetchQuestions();
 	}, [
+		controller.signal,
 		dispatch,
 		navigate,
-		questionState.difficulty,
-		questionState.numQuestions,
-		questionState.topic,
+		quizData.difficulty,
+		quizData.numQuestions,
+		quizData.topic,
 	]);
 
 	return (
 		<>
-			<ReturnToStart />
+			<ReturnToStart
+				sideEffect={() => {
+					controller.abort();
+				}}
+			/>
 			<BsFillLightbulbFill className="absolute-center text-[120px] animate-pulse" />
 			<h1 className="absolute left-[50%] -translate-x-[50%] bottom-10 text-3xl tracking-wide w-full text-center p-4">
-				Generating "{questionState.topic}" questions...
+				Generating "{quizData.topic}" questions...
 			</h1>
 		</>
 	);

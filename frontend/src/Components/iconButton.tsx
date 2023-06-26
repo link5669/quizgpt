@@ -1,4 +1,4 @@
-import { FormEvent, PropsWithChildren } from "react";
+import { PropsWithChildren } from "react";
 import {
 	getIconButtonClass,
 	iconButtonSubmitHandler,
@@ -6,7 +6,7 @@ import {
 
 interface Props {
 	hoverScale?: boolean;
-	action?: (e: FormEvent<HTMLFormElement>) => void;
+	action?: () => void;
 	className?: string;
 }
 

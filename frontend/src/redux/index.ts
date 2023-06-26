@@ -1,16 +1,27 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { persistReducer, persistStore } from "redux-persist";
+import {
+	AnyAction,
+	Reducer,
+	combineReducers,
+	configureStore,
+} from "@reduxjs/toolkit";
+import { persistReducer, persistStore, createMigrate } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import questionSlice from "./slices/questionSlice.ts";
+import migrations from "./migrations.ts";
 import userSlice from "./slices/userSlice.ts";
+import autoMergeLevel1 from "redux-persist/lib/stateReconciler/autoMergeLevel1";
 
 // Create a persist configuration object
 const persistConfig = {
 	key: "root",
 	storage,
+	version: 2,
+	debug: false,
+	stateReconciler: autoMergeLevel1,
+	migrate: createMigrate(migrations, { debug: false }),
 };
 
-const rootReducer = combineReducers({
+const rootReducer: Reducer<any, AnyAction> = combineReducers({
 	question: questionSlice.reducer,
 	user: userSlice.reducer,
 });
@@ -31,14 +42,8 @@ const store = configureStore({
 
 const persistor = persistStore(store);
 
-export const {
-	incrementIndex,
-	resetIndex,
-	setQuestionData,
-	newTopic,
-	newNumQuestions,
-	newDifficulty,
-} = questionSlice.actions;
+export const { incrementIndex, resetIndex, setQuestionData, updateQuizData } =
+	questionSlice.actions;
 export const { incrementScore, resetScore } = userSlice.actions;
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

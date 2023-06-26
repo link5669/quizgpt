@@ -10,7 +10,9 @@ import { FormEvent } from "react";
 export default function ScorePage() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const topic = useSelector((state: RootState) => state.question.topic);
+	const topic = useSelector(
+		(state: RootState) => state.question.quizData.topic
+	);
 	const totalQuestions = useSelector(
 		(state: RootState) => state.question.data.length
 	);
@@ -41,6 +43,12 @@ export default function ScorePage() {
 			setScores(response);
 		});
 	}, [scores]);
+
+	useEffect(() => {
+		if (topic.length === 0) {
+			navigate("/", { state: "Please Enter a Topic" });
+		}
+	});
 
 	return (
 		<div className="flex flex-col gap-3 h-full font-default items-center text-center py-5">
