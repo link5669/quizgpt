@@ -4,12 +4,14 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, setQuestionData } from "../redux";
-import { QuestionData } from "./../../types/shared.d";
+import { MyQuiz, QuestionData } from "./../../types/shared.d";
 import { useNavigate } from "react-router-dom";
 import { getErrorMessage } from "../helperFunctions";
 
 export default function Loading() {
-	const quizData = useSelector((state: RootState) => state.question.quizData);
+	const quizData: MyQuiz = useSelector(
+		(state: RootState) => state.question.quizData
+	);
 
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -24,7 +26,7 @@ export default function Loading() {
 						topic: quizData.topic,
 						numQuestions: quizData.numQuestions,
 						difficulty: quizData.difficulty,
-						useGPT4: quizData.useGPT4 ? true : false
+						useGPT4: quizData.gpt4,
 					},
 					signal: controller.signal,
 				})
@@ -45,6 +47,7 @@ export default function Loading() {
 		dispatch,
 		navigate,
 		quizData.difficulty,
+		quizData.gpt4,
 		quizData.numQuestions,
 		quizData.topic,
 	]);
