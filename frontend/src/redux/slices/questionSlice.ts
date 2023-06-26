@@ -4,11 +4,12 @@ import { QuizState } from "../../../types/shared";
 import { MyQuiz } from "../../../types/shared";
 import { DEFAULT_DIFFICULTY, DEFAULT_NUM_QUESTIONS } from "../../config";
 
-const initialState: QuizState = {
+export const initialQuizState: QuizState = {
 	quizData: {
 		numQuestions: DEFAULT_NUM_QUESTIONS,
 		difficulty: DEFAULT_DIFFICULTY,
 		topic: "",
+		gpt4: false,
 	},
 	currentQuestionIndex: 0,
 	data: [],
@@ -16,7 +17,7 @@ const initialState: QuizState = {
 
 const questionSlice = createSlice({
 	name: "question",
-	initialState,
+	initialState: initialQuizState,
 	reducers: {
 		incrementIndex(state) {
 			state.currentQuestionIndex = state.currentQuestionIndex + 1;
@@ -28,9 +29,11 @@ const questionSlice = createSlice({
 			state.data = action.payload;
 		},
 		updateQuizData(state, action: PayloadAction<MyQuiz>) {
+			state.currentQuestionIndex = 0;
 			state.quizData.numQuestions = action.payload.numQuestions;
 			state.quizData.difficulty = action.payload.difficulty;
 			state.quizData.topic = action.payload.topic;
+			state.quizData.gpt4 = action.payload.gpt4;
 		},
 	},
 });

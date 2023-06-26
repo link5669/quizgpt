@@ -8,12 +8,13 @@ export interface MyQuiz {
 	numQuestions: number;
 	difficulty: string;
 	topic: string;
+	gpt4: boolean;
 }
 
 export interface QuizState {
 	quizData: MyQuiz;
 	currentQuestionIndex: number;
-	data: QuestionData[]
+	data: QuestionData[];
 }
 
 export interface UserData {

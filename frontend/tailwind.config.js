@@ -5,7 +5,11 @@ export default {
 		fontFamily: {
 			default: ["Hammersmith One", "sans-serif"],
 		},
-		extend: {},
+		extend: {
+			colors: {
+				true_answer: "#5c91fa",
+			},
+		},
 	},
 	plugins: [],
 };
