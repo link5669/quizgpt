@@ -1,8 +1,8 @@
 import getGPTData from "./chat.js";
 
-const fetchQuestions = async (topic, numQuestions, difficulty) => {
+const fetchQuestions = async (topic, numQuestions, difficulty, modelType) => {
   console.log(topic, numQuestions, difficulty)
-  const response = await getGPTData(topic, numQuestions, difficulty);
+  const response = await getGPTData(topic, numQuestions, difficulty, modelType);
   const answerOptions = ["a)", "b)", "c)", "d)"];
   const numAnswerOptions = answerOptions.length;
   const numAnswerOptionsFound = answerOptions.reduce((count, option) => {

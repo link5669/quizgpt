@@ -24,6 +24,7 @@ export default function Loading() {
 						topic: quizData.topic,
 						numQuestions: quizData.numQuestions,
 						difficulty: quizData.difficulty,
+						useGPT4: quizData.useGPT4 ? true : false
 					},
 					signal: controller.signal,
 				})

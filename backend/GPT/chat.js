@@ -1,7 +1,7 @@
 import axios from "axios";
 import "dotenv/config";
  
-const getGPTData = async (topic, numQuestions, difficulty) => {
+const getGPTData = async (topic, numQuestions, difficulty, modelType) => {
   const headers = {
     Authorization: `Bearer ${process.env.PSCHATACCESSTOKEN}`,
     "Content-Type": "application/json",
@@ -31,9 +31,10 @@ const getGPTData = async (topic, numQuestions, difficulty) => {
               Answer: c) To map domain names to IP addresses
               `,
     options: {
-      model: "gpt35turbo",
+      model: modelType
     },
   };
+  console.log(data)
   return axios
     .post("https://api.psnext.info/api/chat", data, { headers })
     .then((response) => {
