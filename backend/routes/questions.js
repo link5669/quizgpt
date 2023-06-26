@@ -18,8 +18,9 @@ router.get("/", async (req, res) => {
       res.status(400).send("Missing parameters")
     } else {
       try {
-        const { topic, numQuestions, difficulty } = req.query;
-        const questions = await fetchQuestions(topic, numQuestions, difficulty);
+        const { topic, numQuestions, difficulty, useGPT4 } = req.query;
+        const modelType = useGPT4 ? "gpt4" : "gpt35turbo"
+        const questions = await fetchQuestions(topic, numQuestions, difficulty, modelType);
         res.json(JSON.parse(questions));
       } catch {
         res.status(500).send("Error occurred while fetching data from the API");
