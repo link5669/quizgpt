@@ -31,6 +31,7 @@ export default function ScorePage() {
 						&score=${score}`
 				)
 				.then((response) => {
+					console.log(response)
 					const newScore: Score = {username: username, topic: topic, score: score}
 					setScores([...scores, newScore])
 				});
