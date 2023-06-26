@@ -85,10 +85,6 @@ export default function SetQuizData() {
 							name="topic"
 							value={quizData.topic}
 							onChange={handleInputChange}
-							// onKeyDown={(e) => {
-							// 	if (e.key !== "Enter") return;
-							// 	handleSubmit(e);
-							// }}
 							placeholder="enter a topic"
 						></input>
 					</div>
@@ -133,6 +129,7 @@ export default function SetQuizData() {
 							id="gpt4"
 							className="outline-none"
 							onChange={handleInputChange}
+							checked={!!quizData.gpt4}
 						/>
 						<label htmlFor="gpt4">Use GPT-4</label>
 					</div>

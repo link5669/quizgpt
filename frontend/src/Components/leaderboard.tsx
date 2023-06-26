@@ -2,9 +2,10 @@ import { Score } from "../../types/shared";
 
 interface Props {
 	scores: Score[];
+	limit: number;
 }
 
-export default function Leaderboard({ scores }: Props) {
+export default function Leaderboard({ scores, limit }: Props) {
 	return (
 		<div className="flex flex-col mx-4 outline outline-gray-500 outline-4 -outline-offset-1 rounded-2xl">
 			<h1 className="text-3xl py-3 text-white bg-gray-500 rounded-t-2xl">
@@ -29,7 +30,7 @@ export default function Leaderboard({ scores }: Props) {
 								<td>...</td>
 							</tr>
 						) : (
-							scores.slice(0, 4).map((item, index) => {
+							scores.slice(0, limit).map((item, index) => {
 								return (
 									<tr key={index}>
 										<td>{index + 1}</td>
