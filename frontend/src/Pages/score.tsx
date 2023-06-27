@@ -6,6 +6,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Score } from "../../types/shared";
 import { FormEvent } from "react";
+import swal from 'sweetalert';
 
 export default function ScorePage() {
 	const dispatch = useDispatch();
@@ -20,6 +21,14 @@ export default function ScorePage() {
 
 	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault();
+		if (username == "") {
+			swal({
+				title: "Please enter a valid username",
+				text: "Username cannot be null",
+				icon: "warning",
+			  })
+		}
+		else{
 		const postScore = async () => {
 			await axios
 				.post(
@@ -34,6 +43,12 @@ export default function ScorePage() {
 				});
 		};
 		postScore();
+		swal({
+			title: "Success!",
+			text: "Your score has been submitted to the leaderboard!",
+			icon: "success",
+		  });
+		}
 	};
 
 	useEffect(() => {
@@ -101,7 +116,7 @@ export default function ScorePage() {
 					</h2>
 				</div>
 			</div>
-			<form className="flex flex-row gap-10 items-center">
+			<form name="leaderboardForm" className="flex flex-row gap-10 items-center">
 				<p className="text-xl">
 					Join the leaderboard:
 				</p>
@@ -110,6 +125,7 @@ export default function ScorePage() {
 					onChange={(e) => setUsername(e.target.value)}
 					className=" custom-outline shadow-md text-xl py-2 px-5 mx-4 rounded-2xl"
 					placeholder="enter your name"
+					id="username"
 					required
 				/>
 				<button
