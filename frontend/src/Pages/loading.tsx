@@ -3,7 +3,7 @@ import ReturnToStart from "../Components/returnToStart";
 import { useEffect } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState, setQuestionData } from "../redux";
+import { RootState, resetIndex, setQuestionData } from "../redux";
 import { MyQuiz, QuestionData } from "./../../types/shared.d";
 import { useNavigate } from "react-router-dom";
 import { getErrorMessage } from "../helperFunctions";
@@ -31,6 +31,7 @@ export default function Loading() {
 					signal: controller.signal,
 				})
 				.then((response) => {
+					dispatch(resetIndex());
 					dispatch(setQuestionData(response.data));
 					navigate("/quiz");
 				})

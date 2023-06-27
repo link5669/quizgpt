@@ -29,7 +29,6 @@ const questionSlice = createSlice({
 			state.data = action.payload;
 		},
 		updateQuizData(state, action: PayloadAction<MyQuiz>) {
-			state.currentQuestionIndex = 0;
 			state.quizData.numQuestions = action.payload.numQuestions;
 			state.quizData.difficulty = action.payload.difficulty;
 			state.quizData.topic = action.payload.topic;

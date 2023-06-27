@@ -20,11 +20,15 @@ export interface QuizState {
 export interface UserData {
 	// add a username?
 	score: number;
-	quizState: QuizState;
+	// quizState: QuizState;
 }
 
 export interface Score {
-	username: string,
-	topic: string,
-	score: int
+	username: string;
+	topic: string;
+	score: int;
+}
+
+export interface RawScore {
+	[key: string]: Score;
 }

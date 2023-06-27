@@ -2,14 +2,14 @@ import { useState, FormEvent, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { updateQuizData, resetScore, RootState } from "../redux";
-import { MyQuiz } from "../../types/shared";
-import { twMerge } from "tailwind-merge";
+import { MyQuiz, QuizState } from "../../types/shared";
+import { Link } from "react-router-dom";
 
 export default function SetQuizData() {
-	const reduxQuizData: MyQuiz = useSelector(
-		(state: RootState) => state.question.quizData
+	const reduxQuizData: QuizState = useSelector(
+		(state: RootState) => state.question
 	);
-	const [quizData, setQuizData] = useState<MyQuiz>(reduxQuizData);
+	const [quizData, setQuizData] = useState<MyQuiz>(reduxQuizData.quizData);
 	const [emptyTopicError, setEmptyTopicError] = useState(false);
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
@@ -63,21 +63,25 @@ export default function SetQuizData() {
 	};
 
 	return (
-		<div className="flex flex-col gap-2 text-xl items-center text-gray-600 px-2">
+		<div className="flex flex-col text-xl gap-2 items-center text-gray-600 px-2">
+			{reduxQuizData.data.length > 0 &&
+				reduxQuizData.currentQuestionIndex <
+					reduxQuizData.quizData.numQuestions && (
+					<Link to="/quiz">
+						<button className="text-2xl custom-outline bg-gray-200 rounded-full px-[102px] py-4 text-gray-700 shadow-md hover-scale">
+							Continue Quiz
+						</button>
+					</Link>
+				)}
 			<form
 				onSubmit={handleSubmit}
 				name="quiz-form"
 				className="flex flex-col gap-2"
 			>
 				<div className="text-xl">
-					<p
-						className={twMerge(
-							"opacity-0 text-red-600",
-							emptyTopicError && "opacity-100"
-						)}
-					>
-						Please enter a topic!
-					</p>
+					{emptyTopicError && (
+						<p className="text-red-600">Please enter a topic!</p>
+					)}
 					<div className="bg-gray-200 rounded-full custom-outline shadow-md flex flex-row">
 						<input
 							className="bg-transparent w-full text-gray-700 placeholder-gray-400 focus-within:placeholder-gray-700 outline-none py-5 mx-4 pl-5 text-xl"
