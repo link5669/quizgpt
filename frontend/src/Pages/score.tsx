@@ -6,6 +6,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Score } from "../../types/shared";
 import { FormEvent } from "react";
+import swal from 'sweetalert';
 import Leaderboard from "../Components/leaderboard";
 import { twMerge } from "tailwind-merge";
 
@@ -26,28 +27,34 @@ export default function ScorePage() {
 
 	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault();
-		if (username.trim().length > 0) {
-			const postScore = async () => {
-				await axios
-					.post(
-						`/api/scores?
-							username=${username}
-							&topic=${topic}
-							&score=${score}`
-					)
-					.then((response) => {
-						console.log(response);
-						const newScore: Score = {
-							username: username,
-							topic: topic,
-							score: score,
-						};
-						setScores([...scores, newScore]);
-					});
-			};
-			postScore();
-		} else {
-			setEmptyTopicError(true);
+		if (username.trim().length == 0) {
+			swal({
+				title: "Please enter a valid username",
+				text: "Username cannot be null",
+				icon: "warning",
+			  })
+		}
+		else{
+		const postScore = async () => {
+			await axios
+				.post(
+					`/api/scores?
+						username=${username}
+						&topic=${topic}
+						&score=${score}`
+				)
+				.then((response) => {
+					console.log(response)
+					const newScore: Score = {username: username, topic: topic, score: score}
+					setScores([...scores, newScore])
+				});
+		};
+		postScore();
+		swal({
+			title: "Success!",
+			text: "Your score has been submitted to the leaderboard!",
+			icon: "success",
+		  });
 		}
 	};
 

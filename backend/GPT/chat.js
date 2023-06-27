@@ -41,6 +41,7 @@ const getGPTData = async (topic, numQuestions, difficulty, modelType) => {
       return response.data.data.messages[2].content;
     })
     .catch((error) => {
+      console.log("FAILED PROMPT");
       console.error(error);
     });
 };
