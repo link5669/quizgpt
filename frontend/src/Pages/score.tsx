@@ -27,7 +27,7 @@ export default function ScorePage() {
 
 	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault();
-		if (username.trim().length == 0) {
+		if (username == "") {
 			swal({
 				title: "Please enter a valid username",
 				text: "Username cannot be null",
