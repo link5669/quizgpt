@@ -35,8 +35,7 @@ export default function ScorePage() {
 							&topic=${topic}
 							&score=${score}`
 					)
-					.then((response) => {
-						console.log(response);
+					.then(() => {
 						const newScore: Score = {
 							username: username,
 							topic: topic,
@@ -77,11 +76,11 @@ export default function ScorePage() {
 	}, [username]);
 
 	return (
-		<div className="flex flex-col gap-3 justify-between h-full font-default items-center text-center py-5">
+		<div className="flex flex-col gap-3 justify-between h-full font-default items-center text-center">
 			{/* quiz topic block */}
-			<div className="flex flex-row md:gap-24 sm:gap-16 gap-3">
+			<div className="flex flex-row md:gap-24 sm:gap-16 gap-3 md:mt-2">
 				<div className="flex flex-col">
-					<h1 className="text-2xl text-gray-600 md:mx-8 pb-3">
+					<h1 className="text-2xl text-gray-600 md:mx-8 mb-3">
 						Quiz Topic:
 					</h1>
 					<div className="outline outline-gray-500 outline-4 py-3 sm:px-16 px-8 rounded-2xl">
@@ -101,14 +100,14 @@ export default function ScorePage() {
 				</div>
 			</div>
 			<div className="flex flex-col md:gap-6 gap-2">
-				<Leaderboard scores={scores} limit={10} />
-				<form className="flex md:flex-row flex-col md:gap-10 gap-2 items-center mx-4">
+				<Leaderboard scores={scores} limit={25} />
+				<form className="flex sm:flex-row flex-col md:gap-10 gap-2 items-center mx-4">
 					<p className="text-xl">Join the leaderboard:</p>
 					<div className="translate-y-3">
 						<input
 							type="text"
 							onChange={(e) => setUsername(e.target.value)}
-							className=" custom-outline shadow-md text-xl py-2 px-5 mx-4 rounded-full focus-within:placeholder-gray-700"
+							className=" custom-outline shadow-md text-xl py-2 px-5 rounded-full focus-within:placeholder-gray-700"
 							placeholder="enter your name"
 							required
 						/>
@@ -131,7 +130,7 @@ export default function ScorePage() {
 					</button>
 				</form>
 			</div>
-			<div className="flex flex-row py-5 px-2 gap-3 justify-evenly w-full">
+			<div className="flex flex-row mb-2 px-2 gap-3 justify-evenly w-full">
 				<button
 					onClick={() => handlePlayAgain(dispatch, navigate)}
 					className="bg-gray-200 rounded-full hover-scale shadow-md py-3 px-5 sm:px-10"

@@ -3,7 +3,7 @@ import { incrementScore, resetScore, resetIndex } from "./redux";
 import { NavigateFunction } from "react-router-dom";
 import { FormEvent } from "react";
 import axios, { AxiosError } from "axios";
-import { Score } from "../types/shared";
+import { RawScore, Score } from "../types/shared";
 import {
 	ANSWER_TIMEOUT,
 	CORRECT_COLOR,
@@ -56,11 +56,10 @@ export const iconButtonSubmitHandler = (
 	action ? action(e) : null;
 };
 
-function formatRecievedScores(scores: any): Score[] {
-	const scoresCollection = scores.data;
+function formatRecievedScores(scores: RawScore[]): Score[] {
 	const scoresArr: Score[] = [];
-	for (const e in scoresCollection) {
-		scoresArr.push(scoresCollection[e]);
+	for (const e in scores) {
+		scoresArr.push(scores[e] as unknown as Score);
 	}
 	return sortScores(scoresArr);
 }
@@ -71,7 +70,7 @@ function sortScores(scores: Score[]) {
 
 export const getScores = async () => {
 	return axios.get(`/api/scores`).then((response) => {
-		return formatRecievedScores(response);
+		return formatRecievedScores(response.data);
 	});
 };
 
@@ -79,29 +78,24 @@ export const getErrorMessage = (err: AxiosError) => {
 	let status = "";
 	if (err.response) {
 		// The client was given an error response (5xx, 4xx)
-		switch (err.response.status) {
-			case 400:
-				status = "Bad Request";
-				break;
-			case 401:
-				status = "Unauthorized (No Auth Provided)";
-				break;
-			case 403:
-				status = "Forbidden";
-				break;
-			case 404:
-				status = "Not Found";
-				break;
-			case 500:
-				status = "Internal Server Error";
-				break;
-			default:
-				status = "Unhandled Error";
+		const statusCode = err.response.status;
+		if (statusCode === 400) {
+			status = "Bad Request";
+		} else if (statusCode === 401) {
+			status = "Unauthorized (No Auth Provided)";
+		} else if (statusCode === 403) {
+			status = "Forbidden";
+		} else if (statusCode === 404) {
+			status = "Not Found";
+		} else if (statusCode >= 500) {
+			status = err.response.data as string;
+		} else {
+			status = "Unhandled Error";
 		}
 		status = "(" + err.response.status + ") " + status;
 	} else if (err.request) {
 		// The client never received a response, and the request was never left
-		status = "Error accessing backend API";
+		status = "Error accessing quizify API";
 	} else {
 		status = "Unknown Error";
 	}

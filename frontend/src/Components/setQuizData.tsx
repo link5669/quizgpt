@@ -2,14 +2,14 @@ import { useState, FormEvent, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { updateQuizData, resetScore, RootState } from "../redux";
-import { MyQuiz } from "../../types/shared";
+import { MyQuiz, QuizState } from "../../types/shared";
 import { twMerge } from "tailwind-merge";
 
 export default function SetQuizData() {
-	const reduxQuizData: MyQuiz = useSelector(
-		(state: RootState) => state.question.quizData
+	const reduxQuizData: QuizState = useSelector(
+		(state: RootState) => state.question
 	);
-	const [quizData, setQuizData] = useState<MyQuiz>(reduxQuizData);
+	const [quizData, setQuizData] = useState<MyQuiz>(reduxQuizData.quizData);
 	const [emptyTopicError, setEmptyTopicError] = useState(false);
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
@@ -64,6 +64,11 @@ export default function SetQuizData() {
 
 	return (
 		<div className="flex flex-col gap-2 text-xl items-center text-gray-600 px-2">
+			{reduxQuizData.data.length > 0 &&
+				reduxQuizData.currentQuestionIndex <
+					reduxQuizData.quizData.numQuestions && (
+					<div>Continue Quiz</div>
+				)}
 			<form
 				onSubmit={handleSubmit}
 				name="quiz-form"

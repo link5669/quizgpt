@@ -11,8 +11,8 @@ export default function Leaderboard({ scores, limit }: Props) {
 			<h1 className="text-3xl py-3 text-white bg-gray-500 rounded-t-2xl">
 				Leaderboard:
 			</h1>
-			<div className="text-center text-4xl">
-				<table className="table-auto text-2xl border-separate border-spacing-x-2 md:border-spacing-x-16 border-spacing-y-3">
+			<div className="text-center text-4xl h-60 overflow-y-scroll">
+				<table className="w-full table-auto text-2xl border-separate border-spacing-x-1 lg:border-spacing-x-16 border-spacing-y-3">
 					<thead>
 						<tr>
 							<th>Rank</th>
@@ -32,7 +32,7 @@ export default function Leaderboard({ scores, limit }: Props) {
 						) : (
 							scores.slice(0, limit).map((item, index) => {
 								return (
-									<tr key={index}>
+									<tr key={index} className="[&>*]:w-fit">
 										<td>{index + 1}</td>
 										<td>{item.score}</td>
 										<td>{item.topic}</td>

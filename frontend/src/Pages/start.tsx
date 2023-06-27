@@ -7,9 +7,10 @@ import ErrorModal from "../Components/errorModal";
 export default function StartPage() {
 	const location = useLocation();
 	const errorMessage = location.state;
+
+	// Clears error message on page reload
 	useEffect(() => {
 		setTimeout(() => {
-			// Clears error message on page reload
 			window.history.replaceState({}, document.title);
 		}, ERROR_TIMEOUT);
 	}, [errorMessage]);
