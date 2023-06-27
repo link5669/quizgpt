@@ -1,13 +1,15 @@
 import { useState, FormEvent, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { updateQuizData, resetScore } from "../redux";
+import { useDispatch, useSelector } from "react-redux";
+import { updateQuizData, resetScore, RootState } from "../redux";
 import { MyQuiz } from "../../types/shared";
 import { twMerge } from "tailwind-merge";
-import { initialQuizState } from "../redux/slices/questionSlice";
 
 export default function SetQuizData() {
-	const [quizData, setQuizData] = useState<MyQuiz>(initialQuizState.quizData);
+	const reduxQuizData: MyQuiz = useSelector(
+		(state: RootState) => state.question.quizData
+	);
+	const [quizData, setQuizData] = useState<MyQuiz>(reduxQuizData);
 	const [emptyTopicError, setEmptyTopicError] = useState(false);
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
@@ -18,23 +20,22 @@ export default function SetQuizData() {
 		}
 	}, [quizData.topic.length]);
 
-	const numOptions = (): JSX.Element[] => {
-		const options: JSX.Element[] = [];
-		for (let i = 20; i > 0; i--) {
-			options.push(
-				<option key={i} value={i}>
-					{i}
-				</option>
-			);
-		}
-		return options;
-	};
-
 	const handleInputChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
 	) => {
 		const { name, value } = e.target;
-		setQuizData((prevState) => ({ ...prevState, [name]: value }));
+		let parsedVal: string | number | boolean;
+		switch (name) {
+			case "numQuestions":
+				parsedVal = parseInt(value);
+				break;
+			case "gpt4":
+				parsedVal = !quizData.gpt4;
+				break;
+			default:
+				parsedVal = value;
+		}
+		setQuizData((prevState) => ({ ...prevState, [name]: parsedVal }));
 	};
 
 	const handleSubmit = (e: FormEvent) => {
@@ -47,6 +48,18 @@ export default function SetQuizData() {
 		} else {
 			setEmptyTopicError(true);
 		}
+	};
+
+	const numOptions = (): JSX.Element[] => {
+		const options: JSX.Element[] = [];
+		for (let i = 20; i > 0; i--) {
+			options.push(
+				<option key={i} value={i}>
+					{i}
+				</option>
+			);
+		}
+		return options;
 	};
 
 	return (
@@ -72,10 +85,6 @@ export default function SetQuizData() {
 							name="topic"
 							value={quizData.topic}
 							onChange={handleInputChange}
-							// onKeyDown={(e) => {
-							// 	if (e.key !== "Enter") return;
-							// 	handleSubmit(e);
-							// }}
 							placeholder="enter a topic"
 						></input>
 					</div>
@@ -89,6 +98,7 @@ export default function SetQuizData() {
 						value={quizData.difficulty}
 						onChange={handleInputChange}
 						name="difficulty"
+						id="difficulty"
 					>
 						<option value="extremely hard">hard+</option>
 						<option value="hard">hard</option>
@@ -106,6 +116,7 @@ export default function SetQuizData() {
 						value={quizData.numQuestions}
 						onChange={handleInputChange}
 						name="numQuestions"
+						id="numQuestions"
 					>
 						{numOptions()}
 					</select>
@@ -115,8 +126,10 @@ export default function SetQuizData() {
 						<input
 							type="checkbox"
 							name="gpt4"
+							id="gpt4"
 							className="outline-none"
 							onChange={handleInputChange}
+							checked={!!quizData.gpt4}
 						/>
 						<label htmlFor="gpt4">Use GPT-4</label>
 					</div>

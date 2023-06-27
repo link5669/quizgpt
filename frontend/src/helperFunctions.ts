@@ -57,25 +57,23 @@ export const iconButtonSubmitHandler = (
 };
 
 function formatRecievedScores(scores: any): Score[] {
-	const scoresCollection = scores.data
-	var scoresArr: Score[] = []
-	for (var e in scoresCollection) {
-		scoresArr.push(scoresCollection[e])
+	const scoresCollection = scores.data;
+	const scoresArr: Score[] = [];
+	for (const e in scoresCollection) {
+		scoresArr.push(scoresCollection[e]);
 	}
-	return sortScores(scoresArr)
+	return sortScores(scoresArr);
 }
 
 function sortScores(scores: Score[]) {
-	return scores.sort((a,b) => b.score - a.score)
+	return scores.sort((a, b) => b.score - a.score);
 }
 
 export const getScores = async () => {
-	return axios
-		.get(`/api/scores`)
-	.then(response => {
-		return formatRecievedScores(response)
-	})
-}
+	return axios.get(`/api/scores`).then((response) => {
+		return formatRecievedScores(response);
+	});
+};
 
 export const getErrorMessage = (err: AxiosError) => {
 	let status = "";
