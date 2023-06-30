@@ -5,10 +5,9 @@ const router = express.Router();
 
 router.post("/", async (req, res) => {  
     try {
-      const { username, topic, score } = req.query;
-      console.log(username);
-      writeScoreData(username, topic, score);
-      res.status(200).send("Posted score")
+      const { username, topic, score, total, difficulty } = req.query;
+      writeScoreData(username, topic, score, total, difficulty);
+      res.status(200).send("Posted score");
     } catch {
       res.status(500).send("Error occurred while posting data to the API");
     }
