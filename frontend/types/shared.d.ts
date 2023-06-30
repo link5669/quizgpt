@@ -24,11 +24,15 @@ export interface UserData {
 }
 
 export interface Score {
-	username: string;
-	topic: string;
-	score: int;
+	username: string,
+	topic: string,
+	score: int,
+	total: int,
+	difficulty: string,
 }
 
 export interface RawScore {
 	[key: string]: Score;
 }
+
+

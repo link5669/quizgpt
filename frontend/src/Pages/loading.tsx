@@ -62,7 +62,7 @@ export default function Loading() {
 			/>
 			<BsFillLightbulbFill className="absolute-center text-[120px] animate-pulse" />
 			<h1 className="absolute left-[50%] -translate-x-[50%] bottom-10 text-3xl tracking-wide w-full text-center p-4">
-				Generating "{quizData.topic}" questions...
+				Generating questions about "{quizData.topic}"...
 			</h1>
 		</>
 	);

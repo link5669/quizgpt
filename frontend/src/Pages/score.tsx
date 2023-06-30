@@ -4,7 +4,7 @@ import { RootState } from "../redux";
 import { handlePlayAgain, getScores } from "../helperFunctions";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Score } from "../../types/shared";
+import { MyQuiz, Score } from "../../types/shared";
 import { FormEvent } from "react";
 import swal from "sweetalert";
 import Leaderboard from "../Components/leaderboard";
@@ -13,6 +13,9 @@ import { twMerge } from "tailwind-merge";
 export default function ScorePage() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const quiz: MyQuiz = useSelector(
+		(state: RootState) => state.question.quizData
+	);
 	const topic = useSelector(
 		(state: RootState) => state.question.quizData.topic
 	);
@@ -40,23 +43,22 @@ export default function ScorePage() {
 						`/api/scores?
 						username=${username}
 						&topic=${topic}
-						&score=${score}`
-					)
-					.then(() => {
-						const newScore: Score = {
-							username: username,
-							topic: topic,
-							score: score,
-						};
-						setScores([...scores, newScore]);
-					});
-			};
-			postScore();
-			swal({
-				title: "Success!",
-				text: "Your score has been submitted to the leaderboard!",
-				icon: "success",
-			});
+						&score=${score}
+						&total=${quiz.numQuestions}
+						&difficulty=${quiz.difficulty}`
+				)
+				.then((response) => {
+					console.log(response)
+					const newScore: Score = {username: username, topic: topic, score: score, total: quiz.numQuestions, difficulty: quiz.difficulty}
+					setScores([...scores, newScore])
+				});
+		};
+		postScore();
+		swal({
+			title: "Success!",
+			text: "Your score has been submitted to the leaderboard!",
+			icon: "success",
+		  });
 		}
 	};
 
@@ -86,7 +88,7 @@ export default function ScorePage() {
 	}, [username]);
 
 	return (
-		<div className="flex flex-col gap-3 justify-between h-full font-default items-center text-center">
+		<div className="flex flex-col gap-3 justify-between h-full font-default items-center text-center py-5">
 			{/* quiz topic block */}
 			<div className="flex flex-row md:gap-24 sm:gap-16 gap-3 md:mt-2">
 				<div className="flex flex-col">
@@ -110,8 +112,8 @@ export default function ScorePage() {
 				</div>
 			</div>
 			<div className="flex flex-col md:gap-6 gap-2">
-				<Leaderboard scores={scores} limit={25} />
-				<form className="flex sm:flex-row flex-col md:gap-10 gap-2 items-center mx-4">
+				<Leaderboard scores={scores} limit={10} difficulty={quiz.difficulty} />
+				<form className="flex md:flex-row flex-col md:gap-10 gap-2 items-center mx-4">
 					<p className="text-xl">Join the leaderboard:</p>
 					<div className="translate-y-3">
 						<input
