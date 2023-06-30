@@ -1,5 +1,6 @@
 import express from "express";
-import fetchQuestions from "../GPT/getFormattedQuestions.js";
+import fetchQuestions from "../GPT/getFormattedQuestions.js"
+import { writeQuestions } from "../scores/firebase.js";
 
 const router = express.Router();
 
@@ -19,15 +20,13 @@ router.get("/", async (req, res) => {
     } else {
       try {
         const { topic, numQuestions, difficulty, useGPT4 } = req.query;
-        console.log(useGPT4)
-        let modelType = ""
-        if (useGPT4 == true) {
-          modelType = 'gpt4'
-        } else {
-          modelType = 'gpt35turbo'
-        }
+        console.log(useGPT4,typeof(useGPT4))
+        var gpt = (useGPT4 === 'true')
+        console.log(gpt,typeof(gpt))
+        const modelType = gpt ? 'gpt4' : 'gpt35turbo';
         console.log(modelType)
-        const questions = await fetchQuestions(topic, numQuestions, difficulty, modelType);
+        const questions = await fetchQuestions(topic, numQuestions, difficulty, modelType)
+        writeQuestions(topic, JSON.parse(questions))
         res.json(JSON.parse(questions));
       } catch {
         res.status(500).send("Error occurred while fetching data from the API");

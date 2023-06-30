@@ -1,7 +1,6 @@
 import getGPTData from "./chat.js";
 
 const fetchQuestions = async (topic, numQuestions, difficulty, modelType) => {
-  console.log(topic, numQuestions, difficulty)
   const response = await getGPTData(topic, numQuestions, difficulty, modelType);
   const answerOptions = ["a)", "b)", "c)", "d)"];
   const numAnswerOptions = answerOptions.length;
@@ -15,7 +14,6 @@ const fetchQuestions = async (topic, numQuestions, difficulty, modelType) => {
 };
 
 function parseData(text) {
-  console.log(text)
   const parsedQuestions = [];
   const questions = text.split("\n\n");
   for (let i = 0; i < questions.length; i++) {

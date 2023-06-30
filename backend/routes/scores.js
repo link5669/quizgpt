@@ -6,7 +6,6 @@ const router = express.Router();
 router.post("/", async (req, res) => {  
     try {
       const { username, topic, score } = req.query;
-      console.log(username);
       writeScoreData(username, topic, score);
       res.status(200).send("Posted score")
     } catch {

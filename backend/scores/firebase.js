@@ -10,6 +10,18 @@ function writeScoreData(username, topic, score) {
   });
 }
 
+function writeQuestions(topic, questions) {
+  questions.forEach(element => {
+    set(ref(database, "questions/" + topic + "/" + uuidv4()), {
+      answers: element.answers,
+      correctAnswer: element.correctAnswer,
+      question: element.question
+    }).catch((error) => {
+      console.error(error);
+    });
+  });
+}
+
 async function getAllScores() {
     const dbRef = ref(database);
     return get(child(dbRef, `scores`)).then((snapshot) => {
@@ -23,4 +35,4 @@ async function getAllScores() {
     });
   }
 
-export { writeScoreData, getAllScores };
+export { writeScoreData, getAllScores, writeQuestions };
