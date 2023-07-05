@@ -10,6 +10,7 @@ import swal from "sweetalert";
 import Leaderboard from "../Components/leaderboard";
 import { twMerge } from "tailwind-merge";
 
+
 export default function ScorePage() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -28,6 +29,7 @@ export default function ScorePage() {
 	const [scores, setScores] = useState<Score[]>([]);
 	const [emptyTopicError, setEmptyTopicError] = useState(false);
 
+	
 	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault();
 		if (username.trim().length === 0) {
@@ -112,7 +114,7 @@ export default function ScorePage() {
 				</div>
 			</div>
 			<div className="flex flex-col md:gap-6 gap-2">
-				<Leaderboard scores={scores} limit={10} difficulty={quiz.difficulty} />
+				<Leaderboard scores={scores} limit={10} difficulty={quiz.difficulty}/>
 				<form className="flex md:flex-row flex-col md:gap-10 gap-2 items-center mx-4">
 					<p className="text-xl">Join the leaderboard:</p>
 					<div className="translate-y-3">
