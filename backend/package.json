@@ -8,6 +8,7 @@
     "express": "^4.18.2",
     "firebase": "^9.22.2",
     "react-tabs": "^6.0.1",
+    "react-toggle": "^4.1.3",
     "uuid": "^9.0.0"
   },
   "name": "quizify",
@@ -21,6 +22,6 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "nodemon": "^2.0.22"
+    "nodemon": "^1.14.9"
   }
 }
