@@ -15,9 +15,7 @@ interface Props {
 export default function Leaderboard({ scores, limit, difficulty}: Props) {
 	const [toggle, setToggle] = useState(false);
 	const difficulties = ["easy", "medium", "hard", "extremely hard"];
-	const handleToggle = () => {
-		setToggle(!toggle);
-	}
+
 	return(
 		<div className="flex flex-col mx-4 outline outline-gray-500 outline-4 -outline-offset-1 rounded-2xl">
 			<h1 className="text-3xl py-3 text-white bg-gray-500 rounded-t-2xl">
@@ -70,7 +68,7 @@ export default function Leaderboard({ scores, limit, difficulty}: Props) {
 			<label>
 			<p>Score format:</p>
 			<span> Ratio </span>
-			<Toggle defaultChecked={toggle} icons={false} onChange={handleToggle}/>
+			<Toggle defaultChecked={toggle} icons={false} onChange={() => setToggle(!toggle)}/>
 		 	<span> Percentage </span>
 			</label>
 			</div>
@@ -79,3 +77,4 @@ export default function Leaderboard({ scores, limit, difficulty}: Props) {
 
 		
 
+ 
